@@ -9,18 +9,18 @@ const initialState: LoadingState = {
     isLoading: false
 };
 
-const startLoading = (state: LoadingState) => {
+const openLoading = (state: LoadingState) => {
     state.isLoading = true;
 };
 
-const endLoading = (state: LoadingState) => {
+const closeLoading = (state: LoadingState) => {
     state.isLoading = false;
 };
 
 const loadingSlice = createSlice({
     name: SliceName.LOADING,
     initialState,
-    reducers: { startLoading, endLoading }
+    reducers: { openLoading, closeLoading }
 });
 
 const loadingSliceActions = loadingSlice.actions;

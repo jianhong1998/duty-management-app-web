@@ -32,7 +32,8 @@ const LoginForm: FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const { startLoading, endLoading } = loadingSliceActions;
+    const { openLoading: startLoading, closeLoading: endLoading } =
+        loadingSliceActions;
 
     const passwordOnChangeHandler: ChangeEventHandler<HTMLInputElement> = (
         event

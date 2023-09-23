@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import SliceName from '../sliceName';
 import { loginFn, verifyToken } from './login.thunk';
 
@@ -17,10 +17,18 @@ const initialState: LoginState = {
     username: null
 };
 
+const setTokenAndUsername = (
+    state: LoginState,
+    action: PayloadAction<{ token: string | null; username: string | null }>
+) => {
+    state.token = action.payload.token;
+    state.username = action.payload.username;
+};
+
 const loginSlice = createSlice({
     name: SliceName.LOGIN,
     initialState,
-    reducers: {},
+    reducers: { setTokenAndUsername },
     extraReducers: (builder) => {
         builder.addCase(loginFn.fulfilled, (state, action) => {
             if (
