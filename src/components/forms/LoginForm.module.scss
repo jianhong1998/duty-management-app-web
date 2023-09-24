@@ -1,0 +1,28 @@
+.formContainer {
+    max-width: 300px;
+    padding: 1em;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px rgb(184, 184, 184);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    .buttonContianer {
+        width: 100%;
+    }
+
+    .inputContainer {
+        width: 100%;
+    }
+
+    .item {
+        width: 100%;
+        margin: 1em 0;
+
+        &.button {
+            margin: 2em 0;
+        }
+    }
+}
