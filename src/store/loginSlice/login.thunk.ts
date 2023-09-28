@@ -2,13 +2,18 @@
 // http://localhost:3001/api/auth/login
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginThunkType } from './login.slice';
 import { ILoginResponse } from '../../models/httpResponses/loginResponse.model';
 import { BACKEND_API } from '../../constants/backendApi';
 import { ILoginRequest } from '../../models/httpRequests/loginRequest.model';
 import axios, { AxiosRequestConfig, isAxiosError } from 'axios';
 import StandardResponse from '../../models/httpResponses/standardResponse';
 import StandardErrorMessage from '../../models/error/errorMessage.enum';
+import SliceName from '../sliceName';
+
+export enum LoginThunkType {
+    LOGIN = `${SliceName.LOGIN}/login`,
+    VERIFY_TOKEN = `${SliceName.LOGIN}/verify-token`
+}
 
 export const loginFn = createAsyncThunk(
     LoginThunkType.LOGIN,

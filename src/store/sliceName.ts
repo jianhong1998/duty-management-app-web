@@ -1,6 +1,7 @@
 enum SliceName {
     LOGIN = 'loginSlice',
-    LOADING = 'loadingSlice'
+    LOADING = 'loadingSlice',
+    DASHBOARD = 'dashboardSlice'
 }
 
 export default SliceName;

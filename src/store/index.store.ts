@@ -4,11 +4,13 @@ import { loginSliceReducer } from './loginSlice/login.slice';
 import { loadingSliceReducer } from './loadingSlice/loading.slice';
 import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { dashboardSliceReducer } from './dashboardSlice/dashboard.slice';
 
 const store = configureStore({
     reducer: {
         [SliceName.LOGIN]: loginSliceReducer,
-        [SliceName.LOADING]: loadingSliceReducer
+        [SliceName.LOADING]: loadingSliceReducer,
+        [SliceName.DASHBOARD]: dashboardSliceReducer
     }
 });
 

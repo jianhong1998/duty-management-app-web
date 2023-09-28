@@ -2,11 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import SliceName from '../sliceName';
 import { loginFn, verifyToken } from './login.thunk';
 
-enum LoginThunkType {
-    LOGIN = `${SliceName.LOGIN}/login`,
-    VERIFY_TOKEN = `${SliceName.LOGIN}/verify-token`
-}
-
 interface LoginState {
     token: string | null;
     username: string | null;
@@ -52,8 +47,8 @@ const loginSlice = createSlice({
     }
 });
 
-const loginSliceActions = loginSlice.actions;
-const loginSliceReducer = loginSlice.reducer;
+export const loginSliceActions = loginSlice.actions;
+export const loginSliceReducer = loginSlice.reducer;
 
 export default loginSlice;
-export { loginSliceActions, loginSliceReducer, LoginThunkType };
+// export { loginSliceActions, loginSliceReducer, LoginThunkType };
