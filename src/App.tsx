@@ -5,6 +5,8 @@ import HomePage from './screens/Home.screen';
 import LoginPage from './screens/Login.screen';
 import Loading from './components/common/loading/Loading';
 import { ToastContainer } from 'react-toastify';
+import DashboardTemplate from './components/dashboard/DashboardTemplate';
+import NotFoundPage from './screens/NotFound.screen';
 
 function App() {
     return (
@@ -12,8 +14,17 @@ function App() {
             <Routes>
                 <Route
                     path='/'
-                    element={<HomePage />}
-                />
+                    element={<DashboardTemplate />}
+                >
+                    <Route
+                        index
+                        element={<HomePage />}
+                    />
+                    <Route
+                        path='*'
+                        element={<NotFoundPage />}
+                    />
+                </Route>
                 <Route
                     path='/login'
                     element={<LoginPage />}
