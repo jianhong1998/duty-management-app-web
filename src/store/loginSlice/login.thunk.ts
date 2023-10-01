@@ -82,6 +82,8 @@ export const verifyToken = createAsyncThunk(
         } catch (error) {
             if (isAxiosError(error)) {
                 if (error.response && error.response.status === 401) {
+                    localStorage.clear();
+
                     return false;
                 }
 

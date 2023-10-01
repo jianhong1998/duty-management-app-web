@@ -1,9 +1,12 @@
-import { createTheme } from '@mui/material';
+import { colors, createTheme } from '@mui/material';
 
 export const DRAWER_WIDTH = 256;
 
 export const Color = {
-    grey: '#eaeff1'
+    grey: '#eaeff1',
+    green: colors.green[700],
+    red: colors.red[700],
+    white: '#ffffff'
 };
 
 let appTheme = createTheme({

@@ -7,6 +7,7 @@ import Loading from './components/common/loading/Loading';
 import { ToastContainer } from 'react-toastify';
 import DashboardTemplate from './components/dashboard/DashboardTemplate';
 import NotFoundPage from './screens/NotFound.screen';
+import EmployeePage from './screens/Employee.screen';
 
 function App() {
     return (
@@ -19,6 +20,10 @@ function App() {
                     <Route
                         index
                         element={<HomePage />}
+                    />
+                    <Route
+                        path='/employee'
+                        element={<EmployeePage />}
                     />
                     <Route
                         path='*'
