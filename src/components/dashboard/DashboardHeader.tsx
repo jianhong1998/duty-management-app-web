@@ -8,7 +8,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { FC } from 'react';
 import ProfileImageHolder from '../profileImageHolder/ProfileImageHolder';
-import { useAppSelector } from '../../store/index.store';
+import { useAppDispatch, useAppSelector } from '../../store/index.store';
+import { loginSliceActions } from '../../store/loginSlice/login.slice';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
     onDrawerToggle: () => void;
@@ -18,6 +20,25 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
     const { onDrawerToggle } = props;
 
     const { pageTitle } = useAppSelector((state) => state.dashboardSlice);
+
+    const navigate = useNavigate();
+
+    const dispatch = useAppDispatch();
+
+    const { setTokenAndUsername } = loginSliceActions;
+
+    const logout = () => {
+        localStorage.clear();
+
+        dispatch(
+            setTokenAndUsername({
+                token: null,
+                username: null
+            })
+        );
+
+        navigate('/login');
+    };
 
     return (
         <>
@@ -69,27 +90,14 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                             </Tooltip>
                         </Grid>
                         <Grid item>
-                            <ProfileImageHolder source='/static/images/avatar/1.jpg' />
+                            <ProfileImageHolder
+                                source='/static/images/avatar/1.jpg'
+                                onClick={logout}
+                            />
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-            {/* <AppBar
-                component='div'
-                position='static'
-                elevation={0}
-                sx={{ zIndex: 0 }}
-            >
-                <Tabs
-                    value={0}
-                    textColor='inherit'
-                >
-                    <Tab label='Users' />
-                    <Tab label='Sign-in method' />
-                    <Tab label='Templates' />
-                    <Tab label='Usage' />
-                </Tabs>
-            </AppBar> */}
         </>
     );
 };
