@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/index.store';
 import { dashboardSliceActions } from '../store/dashboardSlice/dashboard.slice';
@@ -8,6 +8,7 @@ import ErrorHandler from '../utils/errorHandler';
 import { employeeSliceActions } from '../store/employeeSlice/employee.slice';
 import { loadingSliceActions } from '../store/loadingSlice/loading.slice';
 import EmployeeTable from '../components/tables/EmployeeTable';
+import { Color } from '../constants/appTheme';
 
 const EmployeePage: FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -75,10 +76,22 @@ const EmployeePage: FC = () => {
 
     return (
         <>
-            {errorMessage !== null && <Typography>{errorMessage}</Typography>}
-            {errorMessage === null && employees.length > 0 && (
-                <EmployeeTable employees={employees} />
-            )}
+            <Box
+                sx={{
+                    backgroundColor: Color.white,
+                    paddingX: 5,
+                    paddingY: 2,
+                    borderRadius: 4,
+                    boxShadow: 5
+                }}
+            >
+                {errorMessage !== null && (
+                    <Typography>{errorMessage}</Typography>
+                )}
+                {errorMessage === null && employees.length > 0 && (
+                    <EmployeeTable employees={employees} />
+                )}
+            </Box>
         </>
     );
 };

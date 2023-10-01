@@ -54,13 +54,21 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Employment Type</TableCell>
-                        <TableCell>Role</TableCell>
-                        <TableCell>Contact Number</TableCell>
-                        <TableCell>Active Status</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>ID</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>
+                            Employment Type
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>Role</TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>
+                            Contact Number
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>
+                            Active Status
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}>
+                            Actions
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
