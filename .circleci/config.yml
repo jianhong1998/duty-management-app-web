@@ -30,7 +30,7 @@ jobs:
             - aws-cli/install
             - checkout
             - aws-s3/sync:
-                  from: build-node
+                  from: dist
                   to: 's3://dma-static-web-page/'
                   aws-access-key-id: AWS_ACCESS_KEY
                   aws-secret-access-key: AWS_SECRET_ACCESS_KEY
