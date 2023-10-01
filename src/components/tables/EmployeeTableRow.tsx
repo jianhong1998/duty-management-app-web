@@ -9,12 +9,24 @@ import ActiveBadge from '../common/badge/ActiveBadge';
 
 interface EmployeeTableRowProps {
     employee: IEmployee;
+    openAvailabilityInfoPopupFn: (
+        employeeName: string,
+        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds']
+    ) => void;
 }
 
-const EmployeeTableRow: FC<EmployeeTableRowProps> = ({ employee }) => {
+const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
+    employee,
+    openAvailabilityInfoPopupFn
+}) => {
     const viewAvailabilityButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
-    > = () => {};
+    > = () => {
+        openAvailabilityInfoPopupFn(
+            employee.name,
+            employee.weeklyAvailabilityTimeSlotIds
+        );
+    };
 
     const deleteButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement

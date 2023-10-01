@@ -17,7 +17,6 @@ const Badge: FC<BadgeProps> = ({
     return (
         <Paper
             variant={isOutlined ? 'outlined' : 'elevation'}
-            elevation={4}
             sx={{
                 backgroundColor: backgroundColor,
                 display: 'flex',
