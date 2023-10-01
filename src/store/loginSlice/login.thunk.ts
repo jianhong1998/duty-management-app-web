@@ -37,7 +37,7 @@ export const loginFn = createAsyncThunk(
         } catch (error) {
             if (isAxiosError(error)) {
                 if (error.response?.status === 400) {
-                    throw new Error('Email or Password is incorrect.');
+                    throw new Error(error.response.data.errorMessage);
                 }
 
                 if (typeof error.response === 'undefined') {

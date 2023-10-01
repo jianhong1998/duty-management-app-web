@@ -3,13 +3,18 @@ import { FC } from 'react';
 
 interface ProfileImageHolderProps {
     source: string;
+    onClick?: () => void;
 }
 
-const ProfileImageHolder: FC<ProfileImageHolderProps> = ({ source }) => {
+const ProfileImageHolder: FC<ProfileImageHolderProps> = ({
+    source,
+    onClick
+}) => {
     return (
         <IconButton
             color='inherit'
             sx={{ p: 0.5 }}
+            onClick={onClick}
         >
             <Avatar
                 src={source}

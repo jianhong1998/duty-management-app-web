@@ -9,6 +9,16 @@ export default class ErrorHandler {
             return;
         }
 
+        if (
+            typeof error === 'object' &&
+            error !== null &&
+            'message' in error &&
+            typeof error.message === 'string'
+        ) {
+            ToastifyController.activeError(error.message);
+            return;
+        }
+
         if (this.isFetchBaseQueryError(error)) {
             switch (error.status) {
                 case 'FETCH_ERROR':
