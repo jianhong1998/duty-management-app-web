@@ -49,6 +49,7 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
             <TableCell>
                 <PrimaryButton
                     onClickHanlder={viewAvailabilityButtonOnClickHandler}
+                    style={{ marginRight: 1 }}
                 >
                     View Availability
                 </PrimaryButton>
