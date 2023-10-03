@@ -28,6 +28,8 @@ const DashboardTemplate: FC = () => {
     };
 
     useEffect(() => {
+        console.log('env', import.meta.env);
+
         dispatch(openLoading());
 
         dispatch(verifyToken())
