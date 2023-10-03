@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import DashboardTemplate from './components/dashboard/DashboardTemplate';
 import NotFoundPage from './screens/NotFound.screen';
 import EmployeePage from './screens/Employee.screen';
+import AddEmployeePage from './screens/AddEmployee.screen';
 
 function App() {
     return (
@@ -24,6 +25,10 @@ function App() {
                     <Route
                         path='/employee'
                         element={<EmployeePage />}
+                    />
+                    <Route
+                        path='/add-employee'
+                        element={<AddEmployeePage />}
                     />
                     <Route
                         path='*'

@@ -5,6 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import { FC } from 'react';
 import navigationCategories from '../../constants/navigationCatogory';
 import NavigationItem from './navigationItem/NavigationItem';
+import NestNavigationItem from './navigationItem/NestNavigationItem';
 
 const item = {
     py: '2px',
@@ -41,15 +42,28 @@ const DashboardNavigator: FC<DrawerProps> = (props) => {
                     Duty Management App
                 </ListItem>
                 <Box sx={{ bgcolor: '#101F33' }}>
-                    {navigationCategories.map((navigationItem) => (
-                        <ListItem
-                            disablePadding
-                            key={navigationItem.tagName}
-                            sx={{ py: 1 }}
-                        >
-                            <NavigationItem item={navigationItem} />
-                        </ListItem>
-                    ))}
+                    {navigationCategories.map((navigationItem) => {
+                        if (navigationItem.subNavigationItems) {
+                            return (
+                                <>
+                                    <NestNavigationItem
+                                        key={navigationItem.tagName}
+                                        navigationItem={navigationItem}
+                                    />
+                                </>
+                            );
+                        }
+
+                        return (
+                            <ListItem
+                                disablePadding
+                                key={navigationItem.tagName}
+                                sx={{ py: 1 }}
+                            >
+                                <NavigationItem item={navigationItem} />
+                            </ListItem>
+                        );
+                    })}
                 </Box>
             </List>
         </Drawer>
