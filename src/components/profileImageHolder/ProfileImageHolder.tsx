@@ -1,5 +1,6 @@
 import { IconButton, Avatar } from '@mui/material';
 import { FC } from 'react';
+import { useAppSelector } from '../../store/index.store';
 
 interface ProfileImageHolderProps {
     source: string;
@@ -10,6 +11,8 @@ const ProfileImageHolder: FC<ProfileImageHolderProps> = ({
     source,
     onClick
 }) => {
+    const { username } = useAppSelector((state) => state.loginSlice);
+
     return (
         <IconButton
             color='inherit'
@@ -18,7 +21,7 @@ const ProfileImageHolder: FC<ProfileImageHolderProps> = ({
         >
             <Avatar
                 src={source}
-                alt='My Avatar'
+                alt={username || 'User'}
             />
         </IconButton>
     );
