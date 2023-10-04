@@ -1,5 +1,5 @@
 import { ListItem, Collapse, List } from '@mui/material';
-import { FC, useState } from 'react';
+import { FC, useState, Fragment } from 'react';
 import INavigationItem from '../../../models/navigation/navigationItem.model';
 import NavigationItem from './NavigationItem';
 
@@ -17,7 +17,7 @@ const NestNavigationItem: FC<NestNavigationItemProps> = ({
     };
 
     return (
-        <>
+        <Fragment key={navigationItem.tagName}>
             <ListItem
                 onClick={onClickHandler}
                 sx={{ py: 1 }}
@@ -37,21 +37,18 @@ const NestNavigationItem: FC<NestNavigationItemProps> = ({
                     {navigationItem.subNavigationItems &&
                         navigationItem.subNavigationItems.map(
                             (subNavigationItem) => (
-                                <>
-                                    <ListItem
-                                        disablePadding
-                                        sx={{ pl: 2 }}
-                                    >
-                                        <NavigationItem
-                                            item={subNavigationItem}
-                                        />
-                                    </ListItem>
-                                </>
+                                <ListItem
+                                    disablePadding
+                                    sx={{ pl: 2 }}
+                                    key={subNavigationItem.tagName}
+                                >
+                                    <NavigationItem item={subNavigationItem} />
+                                </ListItem>
                             )
                         )}
                 </List>
             </Collapse>
-        </>
+        </Fragment>
     );
 };
 

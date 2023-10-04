@@ -91,7 +91,7 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                         </Grid>
                         <Grid item>
                             <ProfileImageHolder
-                                source='/static/images/avatar/1.jpg'
+                                source=''
                                 onClick={logout}
                             />
                         </Grid>

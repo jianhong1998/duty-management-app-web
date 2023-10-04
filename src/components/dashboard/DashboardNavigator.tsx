@@ -38,19 +38,21 @@ const DashboardNavigator: FC<DrawerProps> = (props) => {
                         fontSize: 22,
                         color: '#fff'
                     }}
+                    key={'title'}
                 >
                     Duty Management App
                 </ListItem>
-                <Box sx={{ bgcolor: '#101F33' }}>
-                    {navigationCategories.map((navigationItem) => {
+                <Box
+                    key={'dashboardNavigator-container'}
+                    sx={{ bgcolor: '#101F33' }}
+                >
+                    {navigationCategories.map((navigationItem, index) => {
                         if (navigationItem.subNavigationItems) {
                             return (
-                                <>
-                                    <NestNavigationItem
-                                        key={navigationItem.tagName}
-                                        navigationItem={navigationItem}
-                                    />
-                                </>
+                                <NestNavigationItem
+                                    navigationItem={navigationItem}
+                                    key={navigationItem.tagName}
+                                />
                             );
                         }
 
@@ -60,7 +62,10 @@ const DashboardNavigator: FC<DrawerProps> = (props) => {
                                 key={navigationItem.tagName}
                                 sx={{ py: 1 }}
                             >
-                                <NavigationItem item={navigationItem} />
+                                <NavigationItem
+                                    item={navigationItem}
+                                    key={index}
+                                />
                             </ListItem>
                         );
                     })}
