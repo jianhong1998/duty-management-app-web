@@ -33,8 +33,8 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
         dispatch(
             setTokenAndUsername({
                 token: null,
-                username: null
-            })
+                username: null,
+            }),
         );
 
         navigate('/login');

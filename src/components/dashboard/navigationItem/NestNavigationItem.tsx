@@ -8,7 +8,7 @@ interface NestNavigationItemProps {
 }
 
 const NestNavigationItem: FC<NestNavigationItemProps> = ({
-    navigationItem
+    navigationItem,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const NestNavigationItem: FC<NestNavigationItemProps> = ({
                                 >
                                     <NavigationItem item={subNavigationItem} />
                                 </ListItem>
-                            )
+                            ),
                         )}
                 </List>
             </Collapse>

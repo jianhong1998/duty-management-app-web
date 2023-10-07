@@ -17,7 +17,7 @@ const appReducer = combineReducers({
     [SliceName.EMPLOYEE]: employeeSliceReducer,
     [SliceName.POPUP]: popupSliceReducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
-    [timeSlotApi.reducerPath]: timeSlotApi.reducer
+    [timeSlotApi.reducerPath]: timeSlotApi.reducer,
 });
 
 const store = configureStore({
@@ -25,7 +25,7 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(employeeApi.middleware)
-            .concat(timeSlotApi.middleware)
+            .concat(timeSlotApi.middleware),
 });
 
 type RootState = ReturnType<typeof store.getState>;

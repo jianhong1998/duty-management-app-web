@@ -10,7 +10,7 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography
+    Typography,
 } from '@mui/material';
 import { useGetTimeSlotQuery } from '../../../../store/timeSlotSlice/timeSlot.api';
 import { useAppSelector } from '../../../../store/index.store';
@@ -31,7 +31,7 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
     employeeName,
     availabilityIds,
     isOpen,
-    closePopupFn
+    closePopupFn,
 }) => {
     const { token } = useAppSelector((state) => state.loginSlice);
 
@@ -43,70 +43,70 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
         data: mondayData,
         isLoading: isMondayDataLoading,
         isError: isMondayDataError,
-        error: mondayError
+        error: mondayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.mon || 0
+        timeSlotId: availabilityIds.mon || 0,
     });
 
     const {
         data: tuesdayData,
         isLoading: isTuesdayDataLoading,
         isError: isTuesdayDataError,
-        error: tuesdayError
+        error: tuesdayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.tue || 0
+        timeSlotId: availabilityIds.tue || 0,
     });
 
     const {
         data: wednesdayData,
         isLoading: isWednesdayDataLoading,
         isError: isWednesdayDataError,
-        error: wednesdayError
+        error: wednesdayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.wed || 0
+        timeSlotId: availabilityIds.wed || 0,
     });
 
     const {
         data: thusdayData,
         isLoading: isThusdayDataLoading,
         isError: isThusdayDataError,
-        error: thusdayError
+        error: thusdayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.thu || 0
+        timeSlotId: availabilityIds.thu || 0,
     });
 
     const {
         data: fridayData,
         isLoading: isFridayDataLoading,
         isError: isFridayDataError,
-        error: fridayError
+        error: fridayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.fri || 0
+        timeSlotId: availabilityIds.fri || 0,
     });
 
     const {
         data: saturdayData,
         isLoading: isSaturdayDataLoading,
         isError: isSaturdayDataError,
-        error: saturdayError
+        error: saturdayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.sat || 0
+        timeSlotId: availabilityIds.sat || 0,
     });
 
     const {
         data: sundayData,
         isLoading: isSundayDataLoading,
         isError: isSundayDataError,
-        error: sundayError
+        error: sundayError,
     } = useGetTimeSlotQuery({
         token: token || '',
-        timeSlotId: availabilityIds.sun || 0
+        timeSlotId: availabilityIds.sun || 0,
     });
 
     useEffect(() => {
@@ -151,7 +151,7 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
         thusdayError,
         fridayError,
         saturdayError,
-        sundayError
+        sundayError,
     ]);
 
     useEffect(() => {
@@ -178,7 +178,7 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
         isSundayDataLoading,
         dispatch,
         openLoading,
-        closeLoading
+        closeLoading,
     ]);
 
     return (

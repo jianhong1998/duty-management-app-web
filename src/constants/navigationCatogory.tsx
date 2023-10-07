@@ -7,7 +7,7 @@ const navigationCategories: INavigationItem[] = [
     {
         tagName: 'Home',
         icon: <HomeIcon />,
-        path: '/'
+        path: '/',
     },
     {
         tagName: 'Employee',
@@ -17,10 +17,10 @@ const navigationCategories: INavigationItem[] = [
             {
                 tagName: 'Add Employee',
                 icon: <AddIcon />,
-                path: '/add-employee'
-            }
-        ]
-    }
+                path: '/add-employee',
+            },
+        ],
+    },
 ];
 
 export default navigationCategories;

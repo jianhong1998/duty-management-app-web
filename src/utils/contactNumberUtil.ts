@@ -10,12 +10,12 @@ export default class ContactNumberUtil {
             case 9:
                 return `0${contactNumberString.slice(
                     0,
-                    2
+                    2,
                 )}-${contactNumberString.slice(2, 9)}`;
             case 10:
                 return `0${contactNumberString.slice(
                     0,
-                    3
+                    3,
                 )}-${contactNumberString.slice(3, 9)}`;
             default:
                 throw new Error('Invalid contact number');

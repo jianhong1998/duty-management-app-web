@@ -37,7 +37,7 @@ export default class ErrorHandler {
                 error.message ||
                     error.code ||
                     error.name ||
-                    '(Serialized Error) Something went wrong'
+                    '(Serialized Error) Something went wrong',
             );
         }
 

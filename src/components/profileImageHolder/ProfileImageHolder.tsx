@@ -9,7 +9,7 @@ interface ProfileImageHolderProps {
 
 const ProfileImageHolder: FC<ProfileImageHolderProps> = ({
     source,
-    onClick
+    onClick,
 }) => {
     const { username } = useAppSelector((state) => state.loginSlice);
 

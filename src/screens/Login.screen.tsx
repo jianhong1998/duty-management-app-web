@@ -28,8 +28,8 @@ const LoginPage: FC = () => {
             dispatch(
                 setTokenAndUsername({
                     token: localStorage.getItem('token'),
-                    username: localStorage.getItem('username')
-                })
+                    username: localStorage.getItem('username'),
+                }),
             );
         }
 
@@ -54,7 +54,7 @@ const LoginPage: FC = () => {
         setTokenAndUsername,
         openLoading,
         closeLoading,
-        navigate
+        navigate,
     ]);
 
     return (

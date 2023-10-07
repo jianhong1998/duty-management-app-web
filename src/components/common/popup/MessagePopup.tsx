@@ -5,7 +5,7 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle
+    DialogTitle,
 } from '@mui/material';
 import { FC, MouseEventHandler } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/index.store';
@@ -49,10 +49,10 @@ const Popup: FC<PopupProps> = ({
     closeButtonTitle,
     enableProceedButton,
     proceedButtonTitle,
-    proceedButtonFn
+    proceedButtonFn,
 }) => {
     const { isOpen, title, content } = useAppSelector(
-        (state) => state.popupSlice
+        (state) => state.popupSlice,
     );
 
     const dispatch = useAppDispatch();

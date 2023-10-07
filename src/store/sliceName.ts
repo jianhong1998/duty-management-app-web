@@ -3,7 +3,8 @@ enum SliceName {
     LOADING = 'loadingSlice',
     DASHBOARD = 'dashboardSlice',
     EMPLOYEE = 'employeeSlice',
-    POPUP = 'popupSlice'
+    POPUP = 'popupSlice',
+    EMPLOYEE_FORM = 'employeeFormSlice',
 }
 
 export default SliceName;

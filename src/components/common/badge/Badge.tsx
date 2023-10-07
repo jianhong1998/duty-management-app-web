@@ -12,7 +12,7 @@ const Badge: FC<BadgeProps> = ({
     children,
     isOutlined,
     backgroundColor,
-    color
+    color,
 }) => {
     return (
         <Paper
@@ -22,7 +22,7 @@ const Badge: FC<BadgeProps> = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                color
+                color,
             }}
         >
             {children}

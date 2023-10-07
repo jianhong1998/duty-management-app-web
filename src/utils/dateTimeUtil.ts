@@ -7,7 +7,7 @@ export default class DateTimeUtil {
         return date.toLocaleTimeString('en-SG', {
             timeZone: 'Asia/Singapore',
             hour12: enable12HoursFormat,
-            timeStyle: 'short'
+            timeStyle: 'short',
         });
     }
 }

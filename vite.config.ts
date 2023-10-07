@@ -8,10 +8,10 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [react()],
         build: {
-            outDir: 'dist'
+            outDir: 'dist',
         },
         define: {
-            __APP_ENV__: env.APP_ENV
-        }
+            __APP_ENV__: env.APP_ENV,
+        },
     };
 });
