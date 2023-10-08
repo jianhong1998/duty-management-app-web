@@ -11,20 +11,20 @@ interface EmployeeTableRowProps {
     employee: IEmployee;
     openAvailabilityInfoPopupFn: (
         employeeName: string,
-        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds']
+        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds'],
     ) => void;
 }
 
 const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
     employee,
-    openAvailabilityInfoPopupFn
+    openAvailabilityInfoPopupFn,
 }) => {
     const viewAvailabilityButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
     > = () => {
         openAvailabilityInfoPopupFn(
             employee.name,
-            employee.weeklyAvailabilityTimeSlotIds
+            employee.weeklyAvailabilityTimeSlotIds,
         );
     };
 
@@ -39,8 +39,8 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
             <TableCell>{employee.employmentType}</TableCell>
             <TableCell>{employee.role}</TableCell>
             <TableCell>
-                {ContactNumberUtil.convertContactNumberToString(
-                    employee.contactNumber
+                {ContactNumberUtil.convertContactNumberToFormettedString(
+                    employee.contactNumber,
                 )}
             </TableCell>
             <TableCell>

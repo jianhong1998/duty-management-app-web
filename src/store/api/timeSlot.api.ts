@@ -3,13 +3,13 @@ import { BACKEND_API } from '../../constants/backendApi';
 import StandardResponse from '../../models/httpResponses/standardResponse';
 import {
     IGetTimeSlotRequestConfig,
-    ResponseTimeSlot
+    ResponseTimeSlot,
 } from '../../models/timeSlot/timeSlot.model';
 
 export const timeSlotApi = createApi({
     reducerPath: 'timeSlotApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BACKEND_API}/api/time-slot`
+        baseUrl: `${BACKEND_API}/api/time-slot`,
     }),
     endpoints: (builder) => ({
         getTimeSlot: builder.query<
@@ -20,11 +20,11 @@ export const timeSlotApi = createApi({
                 url: `${timeSlotId}`,
                 method: 'GET',
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-        })
-    })
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
+    }),
 });
 
 export const { useGetTimeSlotQuery } = timeSlotApi;

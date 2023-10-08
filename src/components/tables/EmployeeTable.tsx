@@ -5,7 +5,7 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    TableRow
+    TableRow,
 } from '@mui/material';
 import EmployeeTableRow from './EmployeeTableRow';
 import EmployeeAvailabilityInfoPopup from '../common/popup/employeeAvailabilityInfoPopup/EmployeeAvailabilityInfoPopup';
@@ -21,7 +21,7 @@ const EMPTY_AVAILABILITY_IDS: IEmployee['weeklyAvailabilityTimeSlotIds'] = {
     thu: null,
     fri: null,
     sat: null,
-    sun: null
+    sun: null,
 };
 
 const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
@@ -36,7 +36,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
 
     const openAvailabilityInfoPopup = (
         employeeName: string,
-        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds']
+        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds'],
     ) => {
         setEmployeeName(employeeName);
         setAvailabilityIds(availabilityIds);

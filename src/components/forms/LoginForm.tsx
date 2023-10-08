@@ -9,7 +9,7 @@ import {
     useCallback,
     useEffect,
     useRef,
-    useState
+    useState,
 } from 'react';
 import PasswordInput from '../common/input/PasswordInput';
 import { loginFn, verifyToken } from '../../store/loginSlice/login.thunk';
@@ -36,13 +36,13 @@ const LoginForm: FC = () => {
         loadingSliceActions;
 
     const passwordOnChangeHandler: ChangeEventHandler<HTMLInputElement> = (
-        event
+        event,
     ) => {
         setPassword(event.target.value);
     };
 
     const emailOnChangeHandler: ChangeEventHandler<HTMLInputElement> = (
-        event
+        event,
     ) => {
         setEmail(event.target.value);
     };

@@ -12,7 +12,7 @@ import SliceName from '../sliceName';
 
 export enum LoginThunkType {
     LOGIN = `${SliceName.LOGIN}/login`,
-    VERIFY_TOKEN = `${SliceName.LOGIN}/verify-token`
+    VERIFY_TOKEN = `${SliceName.LOGIN}/verify-token`,
 }
 
 export const loginFn = createAsyncThunk(
@@ -23,33 +23,33 @@ export const loginFn = createAsyncThunk(
 
             const config: AxiosRequestConfig = {
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                },
             };
 
             const result = await axios.post<ILoginResponse>(
                 url,
                 loginRequest,
-                config
+                config,
             );
 
             return result.data;
         } catch (error) {
             if (isAxiosError(error)) {
                 if (error.response?.status === 400) {
-                    throw new Error('Email or Password is incorrect.');
+                    throw new Error(error.response.data.errorMessage);
                 }
 
                 if (typeof error.response === 'undefined') {
                     throw new Error(
-                        StandardErrorMessage.SERVER_CONNECTION_REFUSE
+                        StandardErrorMessage.SERVER_CONNECTION_REFUSE,
                     );
                 }
             }
 
             throw error;
         }
-    }
+    },
 );
 
 export const verifyToken = createAsyncThunk(
@@ -65,8 +65,8 @@ export const verifyToken = createAsyncThunk(
 
         const config: AxiosRequestConfig = {
             headers: {
-                Authorization: `bearer ${token}`
-            }
+                Authorization: `bearer ${token}`,
+            },
         };
 
         try {
@@ -89,12 +89,12 @@ export const verifyToken = createAsyncThunk(
 
                 if (!error.response) {
                     throw new Error(
-                        StandardErrorMessage.SERVER_CONNECTION_REFUSE
+                        StandardErrorMessage.SERVER_CONNECTION_REFUSE,
                     );
                 }
             }
 
             throw error;
         }
-    }
+    },
 );

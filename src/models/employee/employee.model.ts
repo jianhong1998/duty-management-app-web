@@ -1,12 +1,12 @@
 export enum EmploymentType {
     FULL_TIME = 'Full Time',
-    PART_TIME = 'Part Time'
+    PART_TIME = 'Part Time',
 }
 
 export enum EmployeeRole {
     LEAD = 'Lead Service Crew',
     MID = 'Service Crew',
-    JUNIOR = 'Junior Service Crew'
+    JUNIOR = 'Junior Service Crew',
 }
 
 export interface IEmployee {

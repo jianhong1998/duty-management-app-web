@@ -4,14 +4,14 @@ import {
     IconButton,
     InputAdornment,
     InputLabel,
-    OutlinedInput
+    OutlinedInput,
 } from '@mui/material';
 import {
     ChangeEventHandler,
     FC,
     KeyboardEventHandler,
     MouseEventHandler,
-    useState
+    useState,
 } from 'react';
 
 interface PasswordInputProps {
@@ -29,7 +29,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
     id,
     value,
     onChangeHandler,
-    enterOnPressHandler
+    enterOnPressHandler,
 }) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -38,7 +38,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
     };
 
     const handleMouseDownPassword: MouseEventHandler<HTMLButtonElement> = (
-        event
+        event,
     ) => {
         event.preventDefault();
     };
@@ -55,7 +55,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
     };
 
     const onKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = (
-        event
+        event,
     ) => {
         if (enterOnPressHandler && event.key === 'Enter') {
             enterOnPressHandler();

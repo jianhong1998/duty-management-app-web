@@ -28,7 +28,7 @@ const NotFoundPage: FC = () => {
                     backgroundColor: '#ffffff',
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
                 }}
                 height={'100%'}
             >
@@ -37,7 +37,7 @@ const NotFoundPage: FC = () => {
                         display: 'flex',
                         flexWrap: 'wrap',
                         justifyContent: 'center',
-                        alignItems: 'stretch'
+                        alignItems: 'stretch',
                     }}
                 >
                     <Box width={'100%'}>
