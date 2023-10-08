@@ -25,9 +25,36 @@ export default class ErrorHandler {
 
         if (this.isFetchBaseQueryError(error)) {
             if (typeof error.status === 'number') {
-                ToastifyController.activeError(
-                    (error.data as { errorMessage: string }).errorMessage,
-                );
+                if (
+                    typeof error.data === 'object' &&
+                    error.data !== null &&
+                    'errorMessage' in error.data
+                ) {
+                    ToastifyController.activeError(
+                        String(error.data.errorMessage),
+                    );
+
+                    return;
+                }
+
+                switch (error.status) {
+                    case 204:
+                        ToastifyController.activeError('Deleted');
+                        break;
+                    case 304:
+                        ToastifyController.activeError('Data no changes');
+                        break;
+                    default:
+                        console.log(
+                            `Received status code ${error.status}: `,
+                            error,
+                        );
+
+                        ToastifyController.activeError(
+                            'Something went wrong, please try again',
+                        );
+                        break;
+                }
 
                 return;
             }
