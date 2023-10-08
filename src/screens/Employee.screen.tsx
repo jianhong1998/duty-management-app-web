@@ -24,7 +24,7 @@ const EmployeePage: FC = () => {
 
     const { isError, error, isLoading } = useGetAllEmployeesQuery(
         {
-            token: token || '',
+            token: token!,
         },
         {
             pollingInterval: 3000,

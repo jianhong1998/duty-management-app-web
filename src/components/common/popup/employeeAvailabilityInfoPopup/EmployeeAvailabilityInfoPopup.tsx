@@ -12,7 +12,7 @@ import {
     TableRow,
     Typography,
 } from '@mui/material';
-import { useGetTimeSlotQuery } from '../../../../store/timeSlotSlice/timeSlot.api';
+import { useGetTimeSlotQuery } from '../../../../store/api/timeSlot.api';
 import { useAppSelector } from '../../../../store/index.store';
 import EmployeeAvailabilityTableRow from './EmployeeAvailabilityTableRow';
 import ErrorHandler from '../../../../utils/errorHandler';
@@ -44,70 +44,105 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
         isLoading: isMondayDataLoading,
         isError: isMondayDataError,
         error: mondayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.mon || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.mon!,
+        },
+        {
+            skip: token === null || availabilityIds.mon === null,
+        },
+    );
 
     const {
         data: tuesdayData,
         isLoading: isTuesdayDataLoading,
         isError: isTuesdayDataError,
         error: tuesdayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.tue || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.tue!,
+        },
+        {
+            skip: token === null || availabilityIds.tue === null,
+        },
+    );
 
     const {
         data: wednesdayData,
         isLoading: isWednesdayDataLoading,
         isError: isWednesdayDataError,
         error: wednesdayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.wed || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.wed!,
+        },
+        {
+            skip: token === null || availabilityIds.wed === null,
+        },
+    );
 
     const {
         data: thusdayData,
         isLoading: isThusdayDataLoading,
         isError: isThusdayDataError,
         error: thusdayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.thu || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.thu!,
+        },
+        {
+            skip: token === null || availabilityIds.thu === null,
+        },
+    );
 
     const {
         data: fridayData,
         isLoading: isFridayDataLoading,
         isError: isFridayDataError,
         error: fridayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.fri || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.fri!,
+        },
+        {
+            skip: token === null || availabilityIds.fri === null,
+        },
+    );
 
     const {
         data: saturdayData,
         isLoading: isSaturdayDataLoading,
         isError: isSaturdayDataError,
         error: saturdayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.sat || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.sat!,
+        },
+        {
+            skip: token === null || availabilityIds.sat === null,
+        },
+    );
 
     const {
         data: sundayData,
         isLoading: isSundayDataLoading,
         isError: isSundayDataError,
         error: sundayError,
-    } = useGetTimeSlotQuery({
-        token: token || '',
-        timeSlotId: availabilityIds.sun || 0,
-    });
+    } = useGetTimeSlotQuery(
+        {
+            token: token!,
+            timeSlotId: availabilityIds.sun!,
+        },
+        {
+            skip: token === null || availabilityIds.sun === null,
+        },
+    );
 
     useEffect(() => {
         if (isMondayDataError) {

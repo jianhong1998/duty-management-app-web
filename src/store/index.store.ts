@@ -8,7 +8,7 @@ import { dashboardSliceReducer } from './dashboardSlice/dashboard.slice';
 import { employeeSliceReducer } from './employeeSlice/employee.slice';
 import { employeeApi } from './employeeSlice/employee.api';
 import { popupSliceReducer } from './popupSlice/popupSlice';
-import { timeSlotApi } from './timeSlotSlice/timeSlot.api';
+import { timeSlotApi } from './api/timeSlot.api';
 import { employeeFormSliceReducer } from './employeeFormSlice/employeeForm.slice';
 import { userAccountApi } from './api/userAccount.api';
 
