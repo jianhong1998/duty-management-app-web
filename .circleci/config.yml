@@ -6,6 +6,16 @@ orbs:
     aws-cli: circleci/aws-cli@4.0.0
     aws-s3: circleci/aws-s3@3.1.1
 jobs:
+    test-node:
+        executor: node/default
+        resource_class: medium
+        steps:
+            - checkout
+            - node/install-packages:
+                  pkg-manager: npm
+            - run:
+                  name: Check ESLint
+                  command: npm run eslint
     build-node:
         executor: node/default
         resource_class: medium
@@ -36,9 +46,12 @@ jobs:
                   aws-secret-access-key: AWS_SECRET_ACCESS_KEY
                   aws-region: AWS_REGION
 workflows:
-    build-and-test:
+    test-build-deploy:
         jobs:
+            - test-node
             - staging-deployment-approval:
+                  requires:
+                      - test-node
                   type: approval
                   filters:
                       branches:
