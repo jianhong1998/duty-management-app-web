@@ -15,7 +15,7 @@ jobs:
                   pkg-manager: npm
             - run:
                   name: Check ESLint
-                  command: npm run eslint
+                  command: npm run lint
     build-node:
         executor: node/default
         resource_class: medium
