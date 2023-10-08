@@ -9,12 +9,12 @@ interface LoginState {
 
 const initialState: LoginState = {
     token: null,
-    username: null
+    username: null,
 };
 
 const setTokenAndUsername = (
     state: LoginState,
-    action: PayloadAction<{ token: string | null; username: string | null }>
+    action: PayloadAction<{ token: string | null; username: string | null }>,
 ) => {
     state.token = action.payload.token;
     state.username = action.payload.username;
@@ -44,7 +44,7 @@ const loginSlice = createSlice({
                 state.username = localStorage.getItem('username');
             }
         });
-    }
+    },
 });
 
 export const loginSliceActions = loginSlice.actions;

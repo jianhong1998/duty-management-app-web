@@ -1,6 +1,8 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import ToastifyController from './toastifyController';
 import { SerializedError } from '@reduxjs/toolkit';
+import StandardErrorMessage from '../models/error/errorMessage.enum';
+import FetchErrorMessage from '../models/error/fetchErrorMessage.enum';
 
 export default class ErrorHandler {
     static activeToast(error: unknown): void {
@@ -19,13 +21,35 @@ export default class ErrorHandler {
             return;
         }
 
+        let errorMessage: string;
+
         if (this.isFetchBaseQueryError(error)) {
+            if (typeof error.status === 'number') {
+                ToastifyController.activeError(
+                    (error.data as { errorMessage: string }).errorMessage,
+                );
+
+                return;
+            }
+
             switch (error.status) {
                 case 'FETCH_ERROR':
+                    errorMessage = error.error;
+                    if (
+                        errorMessage === FetchErrorMessage.FAIL_TO_FETCH_MESSAGE
+                    ) {
+                        errorMessage =
+                            StandardErrorMessage.SERVER_CONNECTION_REFUSE;
+                    }
+
+                    ToastifyController.activeError(errorMessage);
+                    return;
                 case 'TIMEOUT_ERROR':
                 case 'PARSING_ERROR':
-                case 'CUSTOM_ERROR':
                     ToastifyController.activeError(error.error);
+                    return;
+                case 'CUSTOM_ERROR':
+                    console.log(error.error);
                     return;
                 default:
                     return;
@@ -37,7 +61,7 @@ export default class ErrorHandler {
                 error.message ||
                     error.code ||
                     error.name ||
-                    '(Serialized Error) Something went wrong'
+                    '(Serialized Error) Something went wrong',
             );
         }
 

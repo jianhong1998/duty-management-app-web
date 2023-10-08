@@ -24,12 +24,12 @@ const EmployeePage: FC = () => {
 
     const { isError, error, isLoading } = useGetAllEmployeesQuery(
         {
-            token: token || ''
+            token: token!,
         },
         {
             pollingInterval: 3000,
-            skip: !token
-        }
+            skip: !token,
+        },
     );
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const EmployeePage: FC = () => {
                     paddingX: 5,
                     paddingY: 2,
                     borderRadius: 4,
-                    boxShadow: 5
+                    boxShadow: 5,
                 }}
             >
                 {errorMessage !== null && (

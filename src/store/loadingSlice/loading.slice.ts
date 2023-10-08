@@ -6,7 +6,7 @@ interface LoadingState {
 }
 
 const initialState: LoadingState = {
-    isLoading: false
+    isLoading: false,
 };
 
 const openLoading = (state: LoadingState) => {
@@ -20,7 +20,7 @@ const closeLoading = (state: LoadingState) => {
 const loadingSlice = createSlice({
     name: SliceName.LOADING,
     initialState,
-    reducers: { openLoading, closeLoading }
+    reducers: { openLoading, closeLoading },
 });
 
 const loadingSliceActions = loadingSlice.actions;

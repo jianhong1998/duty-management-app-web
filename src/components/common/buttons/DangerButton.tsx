@@ -12,7 +12,7 @@ const DangerButton: FC<DangerButtonProps> = ({
     children,
     onClickHanlder,
     style,
-    disabled
+    disabled,
 }) => {
     return (
         <Button

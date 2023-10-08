@@ -10,12 +10,12 @@ interface PopupState {
 const initialState: PopupState = {
     isOpen: false,
     content: '',
-    title: undefined
+    title: undefined,
 };
 
 const openPopup = (
     state: PopupState,
-    action: PayloadAction<{ content: string; title?: string }>
+    action: PayloadAction<{ content: string; title?: string }>,
 ) => {
     state.isOpen = true;
     state.content = action.payload.content;
@@ -31,7 +31,7 @@ const closePopup = (state: PopupState) => {
 const popupSlice = createSlice({
     name: SliceName.POPUP,
     initialState,
-    reducers: { openPopup, closePopup }
+    reducers: { openPopup, closePopup },
 });
 
 export const popupSliceActions = popupSlice.actions;

@@ -11,7 +11,7 @@ interface EmployeeAvailabilityTableRowProps {
 const EmployeeAvailabilityTableRow: FC<EmployeeAvailabilityTableRowProps> = ({
     weekday,
     startTime,
-    endTime
+    endTime,
 }) => {
     const [displayStartTime, setDisplayStartTime] = useState<string>('');
     const [displayEndTime, setDisplayEndTime] = useState<string>('');

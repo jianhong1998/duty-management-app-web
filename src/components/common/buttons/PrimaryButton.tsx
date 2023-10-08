@@ -12,7 +12,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     children,
     onClickHanlder,
     style,
-    disabled
+    disabled,
 }) => {
     return (
         <>

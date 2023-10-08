@@ -6,7 +6,7 @@ interface DashboardState {
 }
 
 const initialState: DashboardState = {
-    pageTitle: ''
+    pageTitle: '',
 };
 
 const setPageTitle = (state: DashboardState, action: PayloadAction<string>) => {
@@ -16,7 +16,7 @@ const setPageTitle = (state: DashboardState, action: PayloadAction<string>) => {
 const dashboardSlice = createSlice({
     name: SliceName.DASHBOARD,
     initialState,
-    reducers: { setPageTitle }
+    reducers: { setPageTitle },
 });
 
 export const dashboardSliceActions = dashboardSlice.actions;

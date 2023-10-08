@@ -28,8 +28,6 @@ const DashboardTemplate: FC = () => {
     };
 
     useEffect(() => {
-        console.log('env', import.meta.env);
-
         dispatch(openLoading());
 
         dispatch(verifyToken())
@@ -37,7 +35,7 @@ const DashboardTemplate: FC = () => {
             .then((isAuth) => {
                 if (!isAuth) {
                     ToastifyController.activeError(
-                        'Token is invalid or expired. Please login again.'
+                        'Token is invalid or expired. Please login again.',
                     );
 
                     navigate('/login');

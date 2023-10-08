@@ -11,7 +11,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ item }) => {
     const { icon, tagName, path } = item;
 
     const [isSelected, setIsSelected] = useState<boolean>(
-        window.location.pathname === path
+        window.location.pathname === path,
     );
 
     const windowLocation = useLocation();
@@ -33,8 +33,8 @@ const NavigationItem: FC<NavigationItemProps> = ({ item }) => {
                 px: 3,
                 color: 'rgba(255, 255, 255, 0.7)',
                 '&:hover, &:focus': {
-                    bgcolor: 'rgba(255, 255, 255, 0.08)'
-                }
+                    bgcolor: 'rgba(255, 255, 255, 0.08)',
+                },
             }}
             onClick={onClickHandler}
         >

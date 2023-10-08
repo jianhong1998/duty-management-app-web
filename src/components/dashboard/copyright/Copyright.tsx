@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import {
     COPYRIGHT_NAME,
-    COPYRIGHT_WEBSITE_URL
+    COPYRIGHT_WEBSITE_URL,
 } from '../../../constants/copyrightContent';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -20,8 +20,8 @@ const Copyright: FC = () => {
                 underline='always'
                 sx={{
                     ':hover': {
-                        fontWeight: 700
-                    }
+                        fontWeight: 700,
+                    },
                 }}
             >
                 {COPYRIGHT_NAME}

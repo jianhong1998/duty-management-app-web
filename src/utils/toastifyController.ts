@@ -9,7 +9,7 @@ export default class ToastifyController {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored'
+        theme: 'colored',
     };
 
     static activeError(errorMessage: string) {

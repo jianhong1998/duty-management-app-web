@@ -8,12 +8,12 @@ interface EmployeeState {
 }
 
 const initialState: EmployeeState = {
-    employees: []
+    employees: [],
 };
 
 const setEmployees = (
     state: EmployeeState,
-    action: PayloadAction<IEmployee[]>
+    action: PayloadAction<IEmployee[]>,
 ) => {
     state.employees = action.payload;
 };
@@ -22,7 +22,7 @@ const employeeSlice = createSlice({
     name: SliceName.EMPLOYEE,
     initialState,
     reducers: {
-        setEmployees
+        setEmployees,
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -31,9 +31,9 @@ const employeeSlice = createSlice({
                 if (action.payload.isSuccess) {
                     state.employees = action.payload.data;
                 }
-            }
+            },
         );
-    }
+    },
 });
 
 export const employeeSliceActions = employeeSlice.actions;
