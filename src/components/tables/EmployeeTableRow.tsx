@@ -39,7 +39,7 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
             <TableCell>{employee.employmentType}</TableCell>
             <TableCell>{employee.role}</TableCell>
             <TableCell>
-                {ContactNumberUtil.convertContactNumberToString(
+                {ContactNumberUtil.convertContactNumberToFormettedString(
                     employee.contactNumber,
                 )}
             </TableCell>
