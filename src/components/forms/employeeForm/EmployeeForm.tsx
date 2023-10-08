@@ -6,7 +6,7 @@ import {
     useState,
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/index.store';
-import { Grid, SelectChangeEvent } from '@mui/material';
+import { Grid, SelectChangeEvent, Stack } from '@mui/material';
 import TextInput from '../../common/input/TextInput';
 import { employeeFormSliceActions } from '../../../store/employeeFormSlice/employeeForm.slice';
 import ContactNumberInput from '../../common/input/ContactNumberInput';
@@ -23,8 +23,14 @@ import EmailAddressUtil from '../../../utils/emailAddressUtil';
 import { loadingSliceActions } from '../../../store/loadingSlice/loading.slice';
 import ToastifyController from '../../../utils/toastifyController';
 import ErrorHandler from '../../../utils/errorHandler';
-import { useCreateEmployeeAndUserAccountMutation } from '../../../store/api/userAccount.api';
+import {
+    useCreateEmployeeAndUserAccountMutation,
+    useGetEmployeeAndUserAccountQuery,
+    useUpdateEmployeeAndUserAccountMutation,
+} from '../../../store/api/userAccount.api';
 import InputFieldErrorMessage from '../../../models/error/inputFieldErrorMessage.enum';
+import DangerButton from '../../common/buttons/DangerButton';
+import { QueryStatus } from '@reduxjs/toolkit/query/react';
 
 interface IFormErrorState {
     name: IInputFieldError;
@@ -44,7 +50,11 @@ const EmployeeForm: FC = () => {
         employmentType: { isError: false },
         role: { isError: false },
     });
-    const { formData } = useAppSelector((state) => state.employeeFormSlice);
+    const {
+        formData,
+        formMode,
+        updateEmployeeFormPopup: { employeeId },
+    } = useAppSelector((state) => state.employeeFormSlice);
     const { token } = useAppSelector((state) => state.loginSlice);
 
     const {
@@ -58,13 +68,46 @@ const EmployeeForm: FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const { setFormData } = employeeFormSliceActions;
+    const { setFormData, closeUpdateEmployeeFormPopup } =
+        employeeFormSliceActions;
     const { closeLoading, openLoading } = loadingSliceActions;
 
     const [
         createEmployeeAndUserAccountFn,
-        { isError, isLoading, isSuccess, data, error },
+        {
+            isError: isCreateEmployeeError,
+            isLoading: isCreateEmployeeLoading,
+            isSuccess: isCreateEmployeeSuccess,
+            data: createEmployeeData,
+            error: createEmployeeError,
+        },
     ] = useCreateEmployeeAndUserAccountMutation();
+    const [
+        updateEmployeeAndUserAccountFn,
+        {
+            isError: isUpdateEmployeeError,
+            isLoading: isUpdateEmployeeLoading,
+            isSuccess: isUpdateEmployeeSuccess,
+            data: updateEmployeeData,
+            error: updateEmployeeError,
+        },
+    ] = useUpdateEmployeeAndUserAccountMutation();
+
+    const {
+        status: getEmployeeStatus,
+        data: getEmployeeData,
+        error: getEmployeeError,
+    } = useGetEmployeeAndUserAccountQuery(
+        {
+            token: token!,
+            employeeId: employeeId!,
+        },
+        {
+            skip:
+                token === null || employeeId === null || formMode !== 'Update',
+            refetchOnMountOrArgChange: true,
+        },
+    );
 
     const nameInputOnChangeHandler: ChangeEventHandler<HTMLInputElement> = (
         event,
@@ -236,7 +279,7 @@ const EmployeeForm: FC = () => {
     ]);
 
     const onSubmit = useCallback(() => {
-        if (checkForm()) {
+        if (checkForm() && formMode === 'Create') {
             createEmployeeAndUserAccountFn({
                 token: token || '',
                 accountType: accountType!,
@@ -245,6 +288,17 @@ const EmployeeForm: FC = () => {
                 employmentType: employmentType!,
                 name: name!,
                 role: role!,
+            });
+        } else if (checkForm() && formMode === 'Update') {
+            updateEmployeeAndUserAccountFn({
+                token: token || '',
+                accountType: accountType!,
+                contactNumber: contactNumber!,
+                emailAddress: emailAddress!,
+                employmentType: employmentType!,
+                name: name!,
+                role: role!,
+                employeeId: employeeId!,
             });
         }
     }, [
@@ -257,7 +311,14 @@ const EmployeeForm: FC = () => {
         name,
         role,
         createEmployeeAndUserAccountFn,
+        formMode,
+        employeeId,
+        updateEmployeeAndUserAccountFn,
     ]);
+
+    const onClose = () => {
+        dispatch(closeUpdateEmployeeFormPopup());
+    };
 
     // Remove error message if input is empty and valid
     useEffect(() => {
@@ -323,30 +384,81 @@ const EmployeeForm: FC = () => {
     ]);
 
     useEffect(() => {
-        if (isLoading) {
+        if (isCreateEmployeeLoading || isUpdateEmployeeLoading) {
             dispatch(openLoading());
             return;
         } else {
             dispatch(closeLoading());
         }
 
-        if (isSuccess && typeof data !== 'undefined' && data.isSuccess) {
-            ToastifyController.activeSuccess(data.data);
+        if (
+            formMode === 'Create' &&
+            isCreateEmployeeSuccess &&
+            typeof createEmployeeData !== 'undefined' &&
+            createEmployeeData.isSuccess
+        ) {
+            ToastifyController.activeSuccess(createEmployeeData.data);
         }
 
-        if (isError && typeof error !== 'undefined') {
-            ErrorHandler.activeToast(error);
+        if (
+            formMode === 'Create' &&
+            isCreateEmployeeError &&
+            typeof createEmployeeError !== 'undefined'
+        ) {
+            ErrorHandler.activeToast(createEmployeeError);
+        }
+
+        if (
+            formMode === 'Update' &&
+            isUpdateEmployeeError &&
+            typeof updateEmployeeError !== 'undefined'
+        ) {
+            ErrorHandler.activeToast(updateEmployeeError);
+        }
+
+        if (formMode === 'Update' && isUpdateEmployeeSuccess) {
+            ToastifyController.activeSuccess(
+                `Successfully update employee's particulars`,
+            );
+
+            dispatch(closeUpdateEmployeeFormPopup());
         }
     }, [
-        isLoading,
+        isCreateEmployeeLoading,
+        isCreateEmployeeSuccess,
+        createEmployeeData,
+        isCreateEmployeeError,
+        createEmployeeError,
+        formMode,
+        isUpdateEmployeeError,
+        isUpdateEmployeeLoading,
+        isUpdateEmployeeSuccess,
+        updateEmployeeError,
+        updateEmployeeData,
+        name,
         dispatch,
         closeLoading,
         openLoading,
-        isSuccess,
-        data,
-        isError,
-        error,
+        closeUpdateEmployeeFormPopup,
     ]);
+
+    useEffect(() => {
+        if (
+            formMode === 'Update' &&
+            getEmployeeStatus === QueryStatus.rejected
+        ) {
+            ErrorHandler.activeToast(getEmployeeError);
+        }
+
+        if (
+            formMode === 'Update' &&
+            getEmployeeStatus === QueryStatus.fulfilled &&
+            typeof getEmployeeData !== 'undefined' &&
+            !getEmployeeData.isSuccess
+        ) {
+            ErrorHandler.activeToast(new Error(getEmployeeData.errorMessage));
+        }
+    }, [formMode, getEmployeeData, getEmployeeError, getEmployeeStatus]);
 
     return (
         <Grid
@@ -450,7 +562,25 @@ const EmployeeForm: FC = () => {
                 display='flex'
                 justifyContent='flex-end'
             >
-                <PrimaryButton onClickHanlder={onSubmit}>Submit</PrimaryButton>
+                {formMode === 'Create' && (
+                    <PrimaryButton onClickHanlder={onSubmit}>
+                        Create Employee
+                    </PrimaryButton>
+                )}
+
+                {formMode === 'Update' && (
+                    <Stack
+                        flexDirection='row'
+                        gap={1}
+                    >
+                        <DangerButton onClickHanlder={onClose}>
+                            Cancel
+                        </DangerButton>
+                        <PrimaryButton onClickHanlder={onSubmit}>
+                            Update Employee
+                        </PrimaryButton>
+                    </Stack>
+                )}
             </Grid>
         </Grid>
     );

@@ -9,3 +9,8 @@ export interface IUserAccountCreationFormData {
     emailAddress: string;
     accountType: UserAccountRoleType;
 }
+
+export interface IUserAccountUpdateFormData
+    extends IUserAccountCreationFormData {
+    employeeId: number;
+}

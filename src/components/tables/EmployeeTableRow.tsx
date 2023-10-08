@@ -9,6 +9,8 @@ import ActiveBadge from '../common/badge/ActiveBadge';
 import SecondaryButton from '../common/buttons/SecondaryButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useAppDispatch } from '../../store/index.store';
+import { employeeFormSliceActions } from '../../store/employeeFormSlice/employeeForm.slice';
 
 interface EmployeeTableRowProps {
     employee: IEmployee;
@@ -22,6 +24,10 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
     employee,
     openAvailabilityInfoPopupFn,
 }) => {
+    const dispatch = useAppDispatch();
+
+    const { openUpdateEmployeeFormPopup } = employeeFormSliceActions;
+
     const viewAvailabilityButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
     > = () => {
@@ -37,7 +43,9 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
 
     const editButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
-    > = () => {};
+    > = () => {
+        dispatch(openUpdateEmployeeFormPopup(employee.id));
+    };
 
     return (
         <TableRow>

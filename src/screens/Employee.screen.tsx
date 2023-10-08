@@ -9,6 +9,7 @@ import { employeeSliceActions } from '../store/employeeSlice/employee.slice';
 import { loadingSliceActions } from '../store/loadingSlice/loading.slice';
 import EmployeeTable from '../components/tables/EmployeeTable';
 import { Color } from '../constants/appTheme';
+import UpdateEmployeeFormPopup from '../components/common/popup/employeeFormPopup/UpdateEmployeeFormPopup';
 
 const EmployeePage: FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -92,6 +93,7 @@ const EmployeePage: FC = () => {
                     <EmployeeTable employees={employees} />
                 )}
             </Box>
+            <UpdateEmployeeFormPopup />
         </>
     );
 };
