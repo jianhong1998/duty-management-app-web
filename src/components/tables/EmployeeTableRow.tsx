@@ -1,11 +1,14 @@
 import { FC, MouseEventHandler } from 'react';
 import { IEmployee } from '../../models/employee/employee.model';
-import { TableCell, TableRow } from '@mui/material';
+import { Stack, TableCell, TableRow } from '@mui/material';
 import PrimaryButton from '../common/buttons/PrimaryButton';
 import DangerButton from '../common/buttons/DangerButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContactNumberUtil from '../../utils/contactNumberUtil';
 import ActiveBadge from '../common/badge/ActiveBadge';
+import SecondaryButton from '../common/buttons/SecondaryButton';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 interface EmployeeTableRowProps {
     employee: IEmployee;
@@ -32,6 +35,10 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
         HTMLButtonElement
     > = () => {};
 
+    const editButtonOnClickHandler: MouseEventHandler<
+        HTMLButtonElement
+    > = () => {};
+
     return (
         <TableRow>
             <TableCell>{employee.id}</TableCell>
@@ -47,15 +54,32 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
                 <ActiveBadge isActive={employee.isActive} />
             </TableCell>
             <TableCell>
-                <PrimaryButton
-                    onClickHanlder={viewAvailabilityButtonOnClickHandler}
-                    style={{ marginRight: 1 }}
+                <Stack
+                    direction='row'
+                    useFlexGap
+                    flexWrap='wrap'
+                    spacing={1}
                 >
-                    View Availability
-                </PrimaryButton>
-                <DangerButton onClickHanlder={deleteButtonOnClickHandler}>
-                    <DeleteIcon />
-                </DangerButton>
+                    <PrimaryButton
+                        onClickHanlder={viewAvailabilityButtonOnClickHandler}
+                        helperText='View Availability'
+                    >
+                        <VisibilityIcon />
+                    </PrimaryButton>
+
+                    <SecondaryButton
+                        onClickHanlder={editButtonOnClickHandler}
+                        helperText='Edit Employee'
+                    >
+                        <EditNoteIcon />
+                    </SecondaryButton>
+                    <DangerButton
+                        onClickHanlder={deleteButtonOnClickHandler}
+                        helperText='Delete Employee'
+                    >
+                        <DeleteIcon />
+                    </DangerButton>
+                </Stack>
             </TableCell>
         </TableRow>
     );
