@@ -1,11 +1,16 @@
 import { FC, MouseEventHandler } from 'react';
 import { IEmployee } from '../../models/employee/employee.model';
-import { TableCell, TableRow } from '@mui/material';
+import { Stack, TableCell, TableRow } from '@mui/material';
 import PrimaryButton from '../common/buttons/PrimaryButton';
 import DangerButton from '../common/buttons/DangerButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContactNumberUtil from '../../utils/contactNumberUtil';
 import ActiveBadge from '../common/badge/ActiveBadge';
+import SecondaryButton from '../common/buttons/SecondaryButton';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useAppDispatch } from '../../store/index.store';
+import { employeeFormSliceActions } from '../../store/employeeFormSlice/employeeForm.slice';
 
 interface EmployeeTableRowProps {
     employee: IEmployee;
@@ -19,6 +24,10 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
     employee,
     openAvailabilityInfoPopupFn,
 }) => {
+    const dispatch = useAppDispatch();
+
+    const { openUpdateEmployeeFormPopup } = employeeFormSliceActions;
+
     const viewAvailabilityButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
     > = () => {
@@ -31,6 +40,12 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
     const deleteButtonOnClickHandler: MouseEventHandler<
         HTMLButtonElement
     > = () => {};
+
+    const editButtonOnClickHandler: MouseEventHandler<
+        HTMLButtonElement
+    > = () => {
+        dispatch(openUpdateEmployeeFormPopup(employee.id));
+    };
 
     return (
         <TableRow>
@@ -47,15 +62,32 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
                 <ActiveBadge isActive={employee.isActive} />
             </TableCell>
             <TableCell>
-                <PrimaryButton
-                    onClickHanlder={viewAvailabilityButtonOnClickHandler}
-                    style={{ marginRight: 1 }}
+                <Stack
+                    direction='row'
+                    useFlexGap
+                    flexWrap='wrap'
+                    spacing={1}
                 >
-                    View Availability
-                </PrimaryButton>
-                <DangerButton onClickHanlder={deleteButtonOnClickHandler}>
-                    <DeleteIcon />
-                </DangerButton>
+                    <PrimaryButton
+                        onClickHanlder={viewAvailabilityButtonOnClickHandler}
+                        helperText='View Availability'
+                    >
+                        <VisibilityIcon />
+                    </PrimaryButton>
+
+                    <SecondaryButton
+                        onClickHanlder={editButtonOnClickHandler}
+                        helperText='Edit Employee'
+                    >
+                        <EditNoteIcon />
+                    </SecondaryButton>
+                    <DangerButton
+                        onClickHanlder={deleteButtonOnClickHandler}
+                        helperText='Delete Employee'
+                    >
+                        <DeleteIcon />
+                    </DangerButton>
+                </Stack>
             </TableCell>
         </TableRow>
     );

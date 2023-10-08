@@ -7,6 +7,7 @@ export const Color = {
     green: colors.green[700],
     red: colors.red[700],
     white: '#ffffff',
+    orange: colors.orange[700],
 };
 
 let appTheme = createTheme({
@@ -15,6 +16,9 @@ let appTheme = createTheme({
             light: '#63ccff',
             main: '#009be5',
             dark: '#006db3',
+        },
+        secondary: {
+            main: Color.orange,
         },
     },
     typography: {

@@ -7,6 +7,8 @@ import {
 import { UserAccountRoleType } from '../../models/userAccount/userAccountRoleType.enum';
 import { userAccountApi } from '../api/userAccount.api';
 
+type IEmployeeFormMode = 'Create' | 'Update';
+
 interface IEmployeeFormStateFormData {
     name: string | null;
     employmentType: EmploymentType | null;
@@ -18,6 +20,11 @@ interface IEmployeeFormStateFormData {
 
 interface EmployeeFormState {
     formData: IEmployeeFormStateFormData;
+    formMode: IEmployeeFormMode;
+    updateEmployeeFormPopup: {
+        isOpen: boolean;
+        employeeId: number | null;
+    };
 }
 
 const initialState: EmployeeFormState = {
@@ -29,6 +36,11 @@ const initialState: EmployeeFormState = {
         employmentType: null,
         role: null,
     },
+    formMode: 'Create',
+    updateEmployeeFormPopup: {
+        isOpen: false,
+        employeeId: null,
+    },
 };
 
 const setFormData = (
@@ -38,11 +50,44 @@ const setFormData = (
     state.formData = action.payload;
 };
 
+const setFormMode = (
+    state: EmployeeFormState,
+    action: PayloadAction<IEmployeeFormMode>,
+) => {
+    state.formMode = action.payload;
+};
+
+const openUpdateEmployeeFormPopup = (
+    state: EmployeeFormState,
+    action: PayloadAction<number>,
+) => {
+    state.formMode = 'Update';
+    state.updateEmployeeFormPopup.isOpen = true;
+    state.updateEmployeeFormPopup.employeeId = action.payload;
+};
+
+const closeUpdateEmployeeFormPopup = (state: EmployeeFormState) => {
+    state.updateEmployeeFormPopup.isOpen = false;
+    state.updateEmployeeFormPopup.employeeId = null;
+    state.formMode = 'Create';
+    state.formData = {
+        name: null,
+        contactNumber: null,
+        emailAddress: null,
+        accountType: null,
+        employmentType: null,
+        role: null,
+    };
+};
+
 const employeeFormSlice = createSlice({
     name: SliceName.EMPLOYEE_FORM,
     initialState,
     reducers: {
         setFormData,
+        setFormMode,
+        openUpdateEmployeeFormPopup,
+        closeUpdateEmployeeFormPopup,
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -57,6 +102,14 @@ const employeeFormSlice = createSlice({
                     name: null,
                     role: null,
                 };
+            },
+        );
+        builder.addMatcher(
+            userAccountApi.endpoints.getEmployeeAndUserAccount.matchFulfilled,
+            (state, action) => {
+                if (action.payload.isSuccess) {
+                    state.formData = action.payload.data;
+                }
             },
         );
     },

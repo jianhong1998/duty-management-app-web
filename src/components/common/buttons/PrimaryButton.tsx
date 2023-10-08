@@ -1,11 +1,13 @@
-import { Button, SxProps, Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import { FC, MouseEventHandler, ReactNode } from 'react';
+import MuiButton from './MuiButton';
 
 interface PrimaryButtonProps {
     children: ReactNode;
     onClickHanlder: MouseEventHandler<HTMLButtonElement>;
     style?: SxProps<Theme>;
     disabled?: boolean;
+    helperText?: string;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -13,19 +15,20 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     onClickHanlder,
     style,
     disabled,
+    helperText,
 }) => {
     return (
-        <>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={onClickHanlder}
-                disabled={disabled}
-                sx={style}
-            >
-                {children}
-            </Button>
-        </>
+        <MuiButton
+            props={{
+                children,
+                onClick: onClickHanlder,
+                sx: style,
+                disabled,
+                variant: 'contained',
+                color: 'primary',
+            }}
+            helperText={helperText}
+        />
     );
 };
 
