@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { dashboardSliceActions } from '../store/dashboardSlice/dashboard.slice';
 import { useAppDispatch, useAppSelector } from '../store/index.store';
 import { PageTitle } from '../constants/pageTitle';
-import UserProfileForm from '../components/forms/profileForm/UserProfileForm';
+import DefaultWeeklyAvailabilityForm from '../components/forms/defaultWeeklyAvailabilityForm/DefaultWeeklyAvailabilityForm';
 import { useGetAllAvailableTimeSlotsQuery } from '../store/api/timeSlot.api';
 import { QueryStatus } from '@reduxjs/toolkit/query/react';
 import { loadingSliceActions } from '../store/loadingSlice/loading.slice';
@@ -86,7 +86,7 @@ const EditProfile: FC = () => {
 
     return (
         <>
-            <UserProfileForm />
+            <DefaultWeeklyAvailabilityForm />
         </>
     );
 };
