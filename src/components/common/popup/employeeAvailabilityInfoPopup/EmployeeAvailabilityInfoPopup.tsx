@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { loadingSliceActions } from '../../../../store/loadingSlice/loading.slice';
 import PrimaryButton from '../../buttons/PrimaryButton';
 import { useGetEmployeeDefaultWeeklyTimeSlotsQuery } from '../../../../store/api/employeeTimeSlot.api';
-import weekDayMap from '../../../../constants/weekdayMap';
+import weekDayMap from '../../../../constants/weekDay';
 import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 
 interface EmployeeAvailabilityInfoPopupProps {

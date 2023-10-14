@@ -1,26 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BACKEND_API } from '../../constants/backendApi';
 import StandardResponse from '../../models/httpResponses/standardResponse';
-import {
-    IGetTimeSlotRequestConfig,
-    IGetTimeSlotResponse,
-    // ResponseTimeSlot,
-} from '../../models/timeSlot/timeSlot.model';
+import { IGetTimeSlotResponse } from '../../models/timeSlot/timeSlot.model';
 
 export const timeSlotApi = createApi({
     reducerPath: 'timeSlotApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BACKEND_API}/api/admin/time-slot`,
+        baseUrl: `${BACKEND_API}/api/time-slot`,
     }),
     endpoints: (builder) => ({
-        getTimeSlot: builder.query<
-            // StandardResponse<ResponseTimeSlot>,
-            StandardResponse<IGetTimeSlotResponse>,
-            IGetTimeSlotRequestConfig
+        getAllAvailableTimeSlots: builder.query<
+            StandardResponse<IGetTimeSlotResponse[]>,
+            { token: string }
         >({
-            query: ({ token, timeSlotId }) => ({
-                url: `${timeSlotId}`,
-                method: 'GET',
+            query: ({ token }) => ({
+                url: '/',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -29,4 +23,4 @@ export const timeSlotApi = createApi({
     }),
 });
 
-export const { useGetTimeSlotQuery } = timeSlotApi;
+export const { useGetAllAvailableTimeSlotsQuery } = timeSlotApi;

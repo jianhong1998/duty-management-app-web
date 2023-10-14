@@ -7,6 +7,7 @@ import {
 import StandardResponse from '../../models/httpResponses/standardResponse';
 
 export const employeeTimeSlotApi = createApi({
+    reducerPath: 'employeeTimeSlotApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${BACKEND_API}/api/employee-time-slot`,
     }),

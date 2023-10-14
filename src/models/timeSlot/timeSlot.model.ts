@@ -20,6 +20,10 @@ export interface ResponseTimeSlot
     endTime: string;
 }
 
+export type ISimplifiedTimeSlotResponse = Prettify<
+    Pick<ResponseTimeSlot, 'id' | 'startTime' | 'endTime'>
+>;
+
 export interface IGetTimeSlotResponse
     extends Pick<ITimeSlot, 'id' | 'isDeleted'> {
     startTime: string;
@@ -39,7 +43,3 @@ export interface IGetTimeSlotRequestConfig {
     timeSlotId: number;
     token: string;
 }
-
-export type ISimplifiedTimeSlotResponse = Prettify<
-    Pick<ResponseTimeSlot, 'id' | 'startTime' | 'endTime'>
->;
