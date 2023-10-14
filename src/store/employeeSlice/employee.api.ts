@@ -10,7 +10,7 @@ interface IEmployeeGetAllRequestConfig {
 export const employeeApi = createApi({
     reducerPath: 'employeeApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BACKEND_API}/api/employee`,
+        baseUrl: `${BACKEND_API}/api/admin/employee`,
     }),
     endpoints: (builder) => ({
         getAllEmployees: builder.query<

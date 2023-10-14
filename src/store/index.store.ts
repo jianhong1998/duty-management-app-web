@@ -11,6 +11,7 @@ import { popupSliceReducer } from './popupSlice/popupSlice';
 import { timeSlotApi } from './api/timeSlot.api';
 import { employeeFormSliceReducer } from './employeeFormSlice/employeeForm.slice';
 import { userAccountApi } from './api/userAccount.api';
+import { employeeTimeSlotApi } from './api/employeeTimeSlot.api';
 
 const appReducer = combineReducers({
     [SliceName.LOGIN]: loginSliceReducer,
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
     [employeeApi.reducerPath]: employeeApi.reducer,
     [timeSlotApi.reducerPath]: timeSlotApi.reducer,
     [userAccountApi.reducerPath]: userAccountApi.reducer,
+    [employeeTimeSlotApi.reducerPath]: employeeTimeSlotApi.reducer,
 });
 
 const store = configureStore({
@@ -30,7 +32,8 @@ const store = configureStore({
         getDefaultMiddleware()
             .concat(employeeApi.middleware)
             .concat(timeSlotApi.middleware)
-            .concat(userAccountApi.middleware),
+            .concat(userAccountApi.middleware)
+            .concat(employeeTimeSlotApi.middleware),
 });
 
 type RootState = ReturnType<typeof store.getState>;

@@ -1,3 +1,5 @@
+import Prettify from '../prettifyType/prettifyType';
+
 export default interface ITimeSlot {
     id: number;
     startTime: Date;
@@ -18,7 +20,26 @@ export interface ResponseTimeSlot
     endTime: string;
 }
 
+export interface IGetTimeSlotResponse
+    extends Pick<ITimeSlot, 'id' | 'isDeleted'> {
+    startTime: string;
+    endTime: string;
+    isAvailableFor: {
+        mon: boolean;
+        tue: boolean;
+        wed: boolean;
+        thu: boolean;
+        fri: boolean;
+        sat: boolean;
+        sun: boolean;
+    };
+}
+
 export interface IGetTimeSlotRequestConfig {
     timeSlotId: number;
     token: string;
 }
+
+export type ISimplifiedTimeSlotResponse = Prettify<
+    Pick<ResponseTimeSlot, 'id' | 'startTime' | 'endTime'>
+>;

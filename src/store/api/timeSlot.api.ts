@@ -3,17 +3,19 @@ import { BACKEND_API } from '../../constants/backendApi';
 import StandardResponse from '../../models/httpResponses/standardResponse';
 import {
     IGetTimeSlotRequestConfig,
-    ResponseTimeSlot,
+    IGetTimeSlotResponse,
+    // ResponseTimeSlot,
 } from '../../models/timeSlot/timeSlot.model';
 
 export const timeSlotApi = createApi({
     reducerPath: 'timeSlotApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BACKEND_API}/api/time-slot`,
+        baseUrl: `${BACKEND_API}/api/admin/time-slot`,
     }),
     endpoints: (builder) => ({
         getTimeSlot: builder.query<
-            StandardResponse<ResponseTimeSlot>,
+            // StandardResponse<ResponseTimeSlot>,
+            StandardResponse<IGetTimeSlotResponse>,
             IGetTimeSlotRequestConfig
         >({
             query: ({ token, timeSlotId }) => ({
