@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import LoginForm from '../components/forms/LoginForm';
+import LoginForm from '../components/forms/loginForm/LoginForm';
 import { useAppDispatch, useAppSelector } from '../store/index.store';
 import { loginSliceActions } from '../store/loginSlice/login.slice';
 import { verifyToken } from '../store/loginSlice/login.thunk';

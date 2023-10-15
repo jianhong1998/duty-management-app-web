@@ -11,14 +11,14 @@ import {
     useRef,
     useState,
 } from 'react';
-import PasswordInput from '../common/input/PasswordInput';
-import { loginFn, verifyToken } from '../../store/loginSlice/login.thunk';
-import { useAppDispatch, useAppSelector } from '../../store/index.store';
-import { loadingSliceActions } from '../../store/loadingSlice/loading.slice';
-import EmailChecker from '../../utils/emailChecker';
+import PasswordInput from '../../common/input/PasswordInput';
+import { loginFn, verifyToken } from '../../../store/loginSlice/login.thunk';
+import { useAppDispatch, useAppSelector } from '../../../store/index.store';
+import { loadingSliceActions } from '../../../store/loadingSlice/loading.slice';
+import EmailChecker from '../../../utils/emailChecker';
 import { useNavigate } from 'react-router-dom';
-import ErrorHandler from '../../utils/errorHandler';
-import ToastifyController from '../../utils/toastifyController';
+import ErrorHandler from '../../../utils/errorHandler';
+import ToastifyController from '../../../utils/toastifyController';
 
 const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('');

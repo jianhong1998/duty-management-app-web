@@ -1,7 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { BACKEND_API } from '../../constants/backendApi';
 import StandardResponse from '../../models/httpResponses/standardResponse';
-import { IUserAccountCreationFormData } from '../../models/userAccount/userAccount.model';
+import {
+    IUserAccountCreationFormData,
+    IUserAccountUpdateFormData,
+} from '../../models/userAccount/userAccount.model';
+import { IUserAccountUpdateResponse } from '../../models/httpResponses/userAccountResponse.model';
 
 export const userAccountApi = createApi({
     reducerPath: 'userAccountApi',
@@ -37,7 +41,52 @@ export const userAccountApi = createApi({
                 },
             }),
         }),
+        updateEmployeeAndUserAccount: builder.mutation<
+            StandardResponse<IUserAccountUpdateResponse>,
+            IUserAccountUpdateFormData & { token: string }
+        >({
+            query: ({
+                accountType,
+                contactNumber,
+                emailAddress,
+                employmentType,
+                name,
+                role,
+                token,
+                employeeId,
+            }) => ({
+                url: `/employee/${employeeId}`,
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: {
+                    accountType,
+                    contactNumber,
+                    emailAddress,
+                    employmentType,
+                    name,
+                    role,
+                },
+            }),
+        }),
+        getEmployeeAndUserAccount: builder.query<
+            StandardResponse<IUserAccountCreationFormData>,
+            { token: string; employeeId: number }
+        >({
+            query: ({ token, employeeId }) => ({
+                url: `/employee/${employeeId}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
     }),
 });
 
-export const { useCreateEmployeeAndUserAccountMutation } = userAccountApi;
+export const {
+    useCreateEmployeeAndUserAccountMutation,
+    useUpdateEmployeeAndUserAccountMutation,
+    useGetEmployeeAndUserAccountQuery,
+} = userAccountApi;

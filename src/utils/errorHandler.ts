@@ -8,20 +8,38 @@ export default class ErrorHandler {
     static activeToast(error: unknown): void {
         if (this.isFetchBaseQueryError(error)) {
             if (typeof error.status === 'number') {
-                switch (error.status) {
-                    case 304:
-                        ToastifyController.activeError(
-                            // 'No changes made to the resource due to changes are not detected',
-                            "The resource you requested to update has not been modified since there are no changes. If you believe this is an error or you're experiencing issues, please refresh the page, or contact our support team for assistance.",
-                        );
-                        return;
-                    default:
-                        ToastifyController.activeError(
-                            (error.data as { errorMessage: string })
-                                .errorMessage,
-                        );
-                        return;
+                if (
+                    typeof error.data === 'object' &&
+                    error.data !== null &&
+                    'errorMessage' in error.data
+                ) {
+                    ToastifyController.activeError(
+                        String(error.data.errorMessage),
+                    );
+
+                    return;
                 }
+
+                switch (error.status) {
+                    case 204:
+                        ToastifyController.activeError('Deleted');
+                        break;
+                    case 304:
+                        ToastifyController.activeError('Data no changes');
+                        break;
+                    default:
+                        console.log(
+                            `Received status code ${error.status}: `,
+                            error,
+                        );
+
+                        ToastifyController.activeError(
+                            'Something went wrong, please try again',
+                        );
+                        break;
+                }
+
+                return;
             }
 
             let errorMessage: string;
