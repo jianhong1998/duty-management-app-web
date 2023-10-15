@@ -9,7 +9,7 @@ import {
 import { FC } from 'react';
 import { IInputFieldError } from '../../../models/error/inputFieldError.model';
 
-type SelectionOption = {
+export type SelectionOption = {
     value: string;
     label: string;
 };
@@ -20,6 +20,7 @@ type SelectionInputProps = {
     onChangeHandler: (event: SelectChangeEvent<string>) => void;
     label: string;
     error?: IInputFieldError;
+    autoDisable?: boolean;
 };
 
 const SelectionInput: FC<SelectionInputProps> = ({
@@ -28,6 +29,7 @@ const SelectionInput: FC<SelectionInputProps> = ({
     onChangeHandler,
     label,
     error,
+    autoDisable,
 }) => {
     const labelId = `${label.split(' ').join('-')}-label`;
 
@@ -44,6 +46,7 @@ const SelectionInput: FC<SelectionInputProps> = ({
                 onChange={onChangeHandler}
                 variant='outlined'
                 fullWidth
+                disabled={autoDisable && options.length === 0}
             >
                 {options.map((option) => (
                     <MenuItem

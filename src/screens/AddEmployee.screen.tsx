@@ -4,6 +4,7 @@ import { useAppDispatch } from '../store/index.store';
 import EmployeeForm from '../components/forms/employeeForm/EmployeeForm';
 import { Box } from '@mui/material';
 import { Color } from '../constants/appTheme';
+import { PageTitle } from '../constants/pageTitle';
 
 const AddEmployeePage: FC = () => {
     const dispatch = useAppDispatch();
@@ -11,7 +12,7 @@ const AddEmployeePage: FC = () => {
     const { setPageTitle } = dashboardSliceActions;
 
     useEffect(() => {
-        dispatch(setPageTitle('New Employee'));
+        dispatch(setPageTitle(PageTitle.NEW_EMPLOYEE));
     }, [dispatch, setPageTitle]);
 
     return (

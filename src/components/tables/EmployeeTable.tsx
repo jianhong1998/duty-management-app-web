@@ -14,39 +14,25 @@ interface EmployeeTableProps {
     employees: IEmployee[];
 }
 
-const EMPTY_AVAILABILITY_IDS: IEmployee['weeklyAvailabilityTimeSlotIds'] = {
-    mon: null,
-    tue: null,
-    wed: null,
-    thu: null,
-    fri: null,
-    sat: null,
-    sun: null,
-};
-
 const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
     const [isAvailabilityInfoPopupOpen, setIsAvailabilityInfoPopupOpen] =
         useState<boolean>(false);
 
     const [employeeName, setEmployeeName] = useState<string>('');
-
-    const [availabilityIds, setAvailabilityIds] = useState<
-        IEmployee['weeklyAvailabilityTimeSlotIds']
-    >(EMPTY_AVAILABILITY_IDS);
+    const [employeeId, setEmployeeId] = useState<number>(0);
 
     const openAvailabilityInfoPopup = (
         employeeName: string,
-        availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds'],
+        employeeId: number,
     ) => {
         setEmployeeName(employeeName);
-        setAvailabilityIds(availabilityIds);
+        setEmployeeId(employeeId);
         setIsAvailabilityInfoPopupOpen(true);
     };
 
     const closeAvailabilityInfoPopup = () => {
         setIsAvailabilityInfoPopupOpen(false);
         setEmployeeName('');
-        setAvailabilityIds(EMPTY_AVAILABILITY_IDS);
     };
 
     return (
@@ -87,7 +73,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
             <EmployeeAvailabilityInfoPopup
                 isOpen={isAvailabilityInfoPopupOpen}
                 employeeName={employeeName}
-                availabilityIds={availabilityIds}
+                employeeId={employeeId}
                 closePopupFn={closeAvailabilityInfoPopup}
             />
         </>

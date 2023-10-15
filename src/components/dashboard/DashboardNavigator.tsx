@@ -6,6 +6,7 @@ import { FC } from 'react';
 import navigationCategories from '../../constants/navigationCatogory';
 import NavigationItem from './navigationItem/NavigationItem';
 import NestNavigationItem from './navigationItem/NestNavigationItem';
+import { useAppSelector } from '../../store/index.store';
 
 const item = {
     py: '2px',
@@ -24,6 +25,8 @@ const itemCategory = {
 
 const DashboardNavigator: FC<DrawerProps> = (props) => {
     const { ...other } = props;
+
+    const { accountType } = useAppSelector((state) => state.loginSlice);
 
     return (
         <Drawer
@@ -47,6 +50,13 @@ const DashboardNavigator: FC<DrawerProps> = (props) => {
                     sx={{ bgcolor: '#101F33' }}
                 >
                     {navigationCategories.map((navigationItem, index) => {
+                        if (
+                            typeof navigationItem.disabledFor !== 'undefined' &&
+                            navigationItem.disabledFor === accountType
+                        ) {
+                            return null;
+                        }
+
                         if (navigationItem.subNavigationItems) {
                             return (
                                 <NestNavigationItem
