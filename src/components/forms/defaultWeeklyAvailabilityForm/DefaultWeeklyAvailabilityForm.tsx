@@ -171,7 +171,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.mon}
-                        value={chosenTimeSlots.mon?.toString() || null}
+                        value={
+                            chosenTimeSlots.mon !== null &&
+                            availabileTimeSlotOptions.mon.length > 0
+                                ? chosenTimeSlots.mon.toString()
+                                : null
+                        }
                         label='Monday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.MON,
@@ -192,7 +197,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.tue}
-                        value={chosenTimeSlots.tue?.toString() || null}
+                        value={
+                            chosenTimeSlots.tue !== null &&
+                            availabileTimeSlotOptions.tue.length > 0
+                                ? chosenTimeSlots.tue.toString()
+                                : null
+                        }
                         label='Tuesday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.TUE,
@@ -213,7 +223,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.wed}
-                        value={chosenTimeSlots.wed?.toString() || null}
+                        value={
+                            chosenTimeSlots.wed !== null &&
+                            availabileTimeSlotOptions.wed.length > 0
+                                ? chosenTimeSlots.wed.toString()
+                                : null
+                        }
                         label='Wednesday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.WED,
@@ -234,7 +249,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.thu}
-                        value={chosenTimeSlots.thu?.toString() || null}
+                        value={
+                            chosenTimeSlots.thu !== null &&
+                            availabileTimeSlotOptions.thu.length > 0
+                                ? chosenTimeSlots.thu.toString()
+                                : null
+                        }
                         label='Thursday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.THU,
@@ -255,7 +275,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.fri}
-                        value={chosenTimeSlots.fri?.toString() || null}
+                        value={
+                            chosenTimeSlots.fri !== null &&
+                            availabileTimeSlotOptions.fri.length > 0
+                                ? chosenTimeSlots.fri.toString()
+                                : null
+                        }
                         label='Friday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.FRI,
@@ -276,7 +301,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.sat}
-                        value={chosenTimeSlots.sat?.toString() || null}
+                        value={
+                            chosenTimeSlots.sat !== null &&
+                            availabileTimeSlotOptions.sat.length > 0
+                                ? chosenTimeSlots.sat.toString()
+                                : null
+                        }
                         label='Saturday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.SAT,
@@ -297,7 +327,12 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
                 >
                     <SelectionInput
                         options={availabileTimeSlotOptions.sun}
-                        value={chosenTimeSlots.sun?.toString() || null}
+                        value={
+                            chosenTimeSlots.sun !== null &&
+                            availabileTimeSlotOptions.sun.length > 0
+                                ? chosenTimeSlots.sun.toString()
+                                : null
+                        }
                         label='Sunday'
                         onChangeHandler={availabilityTimeSlotOnChangeHandler(
                             WeekDay.SUN,

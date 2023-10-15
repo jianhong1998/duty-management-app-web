@@ -5,9 +5,11 @@ export default class TimeSlotUtil {
     static convertTimeSlotsToSelectionOptions(
         timeSlots: ISimplifiedTimeSlotResponse[],
     ): SelectionOption[] {
-        return timeSlots.map((timeSlot) => ({
+        const result = timeSlots.map((timeSlot) => ({
             label: `${timeSlot.startTime} - ${timeSlot.endTime}`,
             value: timeSlot.id.toString(),
         }));
+
+        return result;
     }
 }
