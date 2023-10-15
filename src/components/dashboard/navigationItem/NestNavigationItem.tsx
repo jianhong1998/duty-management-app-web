@@ -2,6 +2,7 @@ import { ListItem, Collapse, List } from '@mui/material';
 import { FC, useState, Fragment } from 'react';
 import INavigationItem from '../../../models/navigation/navigationItem.model';
 import NavigationItem from './NavigationItem';
+import { useAppSelector } from '../../../store/index.store';
 
 interface NestNavigationItemProps {
     navigationItem: INavigationItem;
@@ -11,6 +12,8 @@ const NestNavigationItem: FC<NestNavigationItemProps> = ({
     navigationItem,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const { accountType } = useAppSelector((state) => state.loginSlice);
 
     const onClickHandler = () => {
         setIsOpen(true);
@@ -36,15 +39,27 @@ const NestNavigationItem: FC<NestNavigationItemProps> = ({
                 >
                     {navigationItem.subNavigationItems &&
                         navigationItem.subNavigationItems.map(
-                            (subNavigationItem) => (
-                                <ListItem
-                                    disablePadding
-                                    sx={{ pl: 2 }}
-                                    key={subNavigationItem.tagName}
-                                >
-                                    <NavigationItem item={subNavigationItem} />
-                                </ListItem>
-                            ),
+                            (subNavigationItem) => {
+                                if (
+                                    subNavigationItem.disabledFor &&
+                                    subNavigationItem.disabledFor ===
+                                        accountType
+                                ) {
+                                    return null;
+                                }
+
+                                return (
+                                    <ListItem
+                                        disablePadding
+                                        sx={{ pl: 2 }}
+                                        key={subNavigationItem.tagName}
+                                    >
+                                        <NavigationItem
+                                            item={subNavigationItem}
+                                        />
+                                    </ListItem>
+                                );
+                            },
                         )}
                 </List>
             </Collapse>

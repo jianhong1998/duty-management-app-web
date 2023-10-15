@@ -9,6 +9,7 @@ import DashboardTemplate from './components/dashboard/DashboardTemplate';
 import NotFoundPage from './screens/NotFound.screen';
 import EmployeePage from './screens/Employee.screen';
 import AddEmployeePage from './screens/AddEmployee.screen';
+import EditProfile from './screens/EditProfile.screen';
 
 function App() {
     return (
@@ -29,6 +30,10 @@ function App() {
                     <Route
                         path='/add-employee'
                         element={<AddEmployeePage />}
+                    />
+                    <Route
+                        path='/edit-profile'
+                        element={<EditProfile />}
                     />
                     <Route
                         path='*'

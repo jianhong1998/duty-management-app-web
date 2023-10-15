@@ -64,7 +64,7 @@ const LoginForm: FC = () => {
                     throw new Error(loginResponse.errorMessage);
                 }
 
-                ToastifyController.activeSuccess('login successfully');
+                ToastifyController.activeSuccess('Login Successfully.');
                 homePageRedirectHandler();
             })
             .catch((error) => {

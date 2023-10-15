@@ -16,6 +16,7 @@ interface EmployeeTableRowProps {
     employee: IEmployee;
     openAvailabilityInfoPopupFn: (
         employeeName: string,
+        employeeId: number,
         availabilityIds: IEmployee['weeklyAvailabilityTimeSlotIds'],
     ) => void;
 }
@@ -33,6 +34,7 @@ const EmployeeTableRow: FC<EmployeeTableRowProps> = ({
     > = () => {
         openAvailabilityInfoPopupFn(
             employee.name,
+            employee.id,
             employee.weeklyAvailabilityTimeSlotIds,
         );
     };

@@ -6,23 +6,6 @@ import FetchErrorMessage from '../models/error/fetchErrorMessage.enum';
 
 export default class ErrorHandler {
     static activeToast(error: unknown): void {
-        if (error instanceof Error) {
-            ToastifyController.activeError(error.message);
-            return;
-        }
-
-        if (
-            typeof error === 'object' &&
-            error !== null &&
-            'message' in error &&
-            typeof error.message === 'string'
-        ) {
-            ToastifyController.activeError(error.message);
-            return;
-        }
-
-        let errorMessage: string;
-
         if (this.isFetchBaseQueryError(error)) {
             if (typeof error.status === 'number') {
                 if (
@@ -59,6 +42,8 @@ export default class ErrorHandler {
                 return;
             }
 
+            let errorMessage: string;
+
             switch (error.status) {
                 case 'FETCH_ERROR':
                     errorMessage = error.error;
@@ -84,12 +69,29 @@ export default class ErrorHandler {
         }
 
         if (this.isSerializedError(error)) {
+            console.log('Serialized Error');
+
             ToastifyController.activeError(
                 error.message ||
                     error.code ||
                     error.name ||
                     '(Serialized Error) Something went wrong',
             );
+        }
+
+        if (error instanceof Error) {
+            ToastifyController.activeError(error.message);
+            return;
+        }
+
+        if (
+            typeof error === 'object' &&
+            error !== null &&
+            'message' in error &&
+            typeof error.message === 'string'
+        ) {
+            ToastifyController.activeError(error.message);
+            return;
         }
 
         ToastifyController.activeError(JSON.stringify(error));
