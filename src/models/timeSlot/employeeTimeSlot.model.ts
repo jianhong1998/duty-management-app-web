@@ -14,3 +14,16 @@ export interface IGetEmployeeDefaultWeeklyTimeSlotsRequestConfig {
     token: string;
     employeeId: number;
 }
+
+export interface IPutEmployeeDefaultWeeklyTimeSlotsRequestConfig
+    extends IGetEmployeeDefaultWeeklyTimeSlotsRequestConfig {
+    weeklyTimeSlotIds: {
+        mon: number | null;
+        tue: number | null;
+        wed: number | null;
+        thu: number | null;
+        fri: number | null;
+        sat: number | null;
+        sun: number | null;
+    };
+}

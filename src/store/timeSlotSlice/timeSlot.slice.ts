@@ -257,6 +257,26 @@ const timeSlotSlice = createSlice({
                         state.chosenTimeSlots = chosenTimeSlots;
                     }
                 },
+            )
+            .addMatcher(
+                employeeTimeSlotApi.endpoints.putEmployeeDefaultWeeklyTimeSlots
+                    .matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        const { mon, tue, wed, thu, fri, sat, sun } =
+                            action.payload.data;
+
+                        state.chosenTimeSlots = {
+                            mon: mon?.id || null,
+                            tue: tue?.id || null,
+                            wed: wed?.id || null,
+                            thu: thu?.id || null,
+                            fri: fri?.id || null,
+                            sat: sat?.id || null,
+                            sun: sun?.id || null,
+                        };
+                    }
+                },
             );
     },
 });

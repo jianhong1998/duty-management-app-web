@@ -18,6 +18,11 @@ import { WeekDay } from '../../../constants/weekDay';
 import ClearIcon from '@mui/icons-material/Clear';
 import DangerButton from '../../common/buttons/DangerButton';
 import PrimaryButton from '../../common/buttons/PrimaryButton';
+import { usePutEmployeeDefaultWeeklyTimeSlotsMutation } from '../../../store/api/employeeTimeSlot.api';
+import { QueryStatus } from '@reduxjs/toolkit/query/react';
+import { loadingSliceActions } from '../../../store/loadingSlice/loading.slice';
+import ErrorHandler from '../../../utils/errorHandler';
+import ToastifyController from '../../../utils/toastifyController';
 
 interface WeeklyAvailableTimeSlotOptions {
     mon: SelectionOption[];
@@ -44,6 +49,7 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
     const { availableTimeSlots, chosenTimeSlots } = useAppSelector(
         (state) => state.timeSlotSlice,
     );
+    const { token, employeeId } = useAppSelector((state) => state.loginSlice);
 
     const dispatch = useAppDispatch();
 
@@ -52,6 +58,15 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
         setChosenTimeSlots,
         clearAvailabileTimeSlots,
     } = timeSlotSliceActions;
+    const { openLoading, closeLoading } = loadingSliceActions;
+
+    const [
+        updateEmployeeDefaultWeeklyTimeSlotsFn,
+        {
+            status: updateEmployeeDefaultWeeklyTimeSlotsStatus,
+            error: updateEmployeeDefaultWeeklyTimeSlotsError,
+        },
+    ] = usePutEmployeeDefaultWeeklyTimeSlotsMutation();
 
     const availabilityTimeSlotOnChangeHandler = (
         weekDay: WeekDay,
@@ -82,7 +97,28 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
         };
     };
 
-    const updateAvailabilityButtonOnClickHandler = () => {};
+    const updateAvailabilityButtonOnClickHandler = () => {
+        if (!token || !employeeId) {
+            ErrorHandler.activeToast(new Error('Token or employeeId is null'));
+            return;
+        }
+
+        const { mon, tue, wed, thu, fri, sat, sun } = chosenTimeSlots;
+
+        updateEmployeeDefaultWeeklyTimeSlotsFn({
+            token,
+            employeeId,
+            weeklyTimeSlotIds: {
+                mon,
+                tue,
+                wed,
+                thu,
+                fri,
+                sat,
+                sun,
+            },
+        });
+    };
 
     const generateClearButton = (
         weekDay: WeekDay,
@@ -135,6 +171,38 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
             ),
         });
     }, [availableTimeSlots]);
+
+    useEffect(() => {
+        if (
+            updateEmployeeDefaultWeeklyTimeSlotsStatus === QueryStatus.pending
+        ) {
+            dispatch(openLoading());
+        } else {
+            dispatch(closeLoading());
+        }
+
+        if (
+            updateEmployeeDefaultWeeklyTimeSlotsStatus ===
+                QueryStatus.rejected &&
+            typeof updateEmployeeDefaultWeeklyTimeSlotsError !== 'undefined'
+        ) {
+            ErrorHandler.activeToast(updateEmployeeDefaultWeeklyTimeSlotsError);
+        }
+
+        if (
+            updateEmployeeDefaultWeeklyTimeSlotsStatus === QueryStatus.fulfilled
+        ) {
+            ToastifyController.activeSuccess(
+                'Update Default Weekly Availability Successfully',
+            );
+        }
+    }, [
+        updateEmployeeDefaultWeeklyTimeSlotsStatus,
+        updateEmployeeDefaultWeeklyTimeSlotsError,
+        dispatch,
+        openLoading,
+        closeLoading,
+    ]);
 
     useEffect(() => {
         return () => {

@@ -3,6 +3,7 @@ import { BACKEND_API } from '../../constants/backendApi';
 import {
     IEmployeeDefaultWeeklyTimeSlots,
     IGetEmployeeDefaultWeeklyTimeSlotsRequestConfig,
+    IPutEmployeeDefaultWeeklyTimeSlotsRequestConfig,
 } from '../../models/timeSlot/employeeTimeSlot.model';
 import StandardResponse from '../../models/httpResponses/standardResponse';
 
@@ -24,8 +25,23 @@ export const employeeTimeSlotApi = createApi({
                 method: 'GET',
             }),
         }),
+        putEmployeeDefaultWeeklyTimeSlots: builder.mutation<
+            StandardResponse<IEmployeeDefaultWeeklyTimeSlots>,
+            IPutEmployeeDefaultWeeklyTimeSlotsRequestConfig
+        >({
+            query: ({ token, employeeId, weeklyTimeSlotIds }) => ({
+                url: `/${employeeId}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: weeklyTimeSlotIds,
+                method: 'PUT',
+            }),
+        }),
     }),
 });
 
-export const { useGetEmployeeDefaultWeeklyTimeSlotsQuery } =
-    employeeTimeSlotApi;
+export const {
+    useGetEmployeeDefaultWeeklyTimeSlotsQuery,
+    usePutEmployeeDefaultWeeklyTimeSlotsMutation,
+} = employeeTimeSlotApi;
