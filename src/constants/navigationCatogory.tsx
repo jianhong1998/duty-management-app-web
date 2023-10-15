@@ -3,6 +3,7 @@ import INavigationItem from '../models/navigation/navigationItem.model';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { UserAccountRoleType } from '../models/userAccount/userAccountRoleType.enum';
 
 const navigationCategories: INavigationItem[] = [
@@ -24,6 +25,11 @@ const navigationCategories: INavigationItem[] = [
                 disabledFor: UserAccountRoleType.USER,
             },
         ],
+    },
+    {
+        tagName: 'Monthly Duty Schedule',
+        icon: <CalendarMonthIcon />,
+        path: '/duty-schedule',
     },
     {
         tagName: 'Profile',
