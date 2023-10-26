@@ -53,7 +53,13 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                         alignItems='center'
                     >
                         <Grid
-                            sx={{ display: { sm: 'none', xs: 'block' } }}
+                            sx={{
+                                display: {
+                                    md: 'none',
+                                    sm: 'block',
+                                    xs: 'block',
+                                },
+                            }}
                             item
                         >
                             <IconButton
