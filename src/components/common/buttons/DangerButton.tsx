@@ -8,6 +8,7 @@ interface DangerButtonProps {
     style?: SxProps<Theme>;
     disabled?: boolean;
     helperText?: string;
+    isContained?: boolean;
 }
 
 const DangerButton: FC<DangerButtonProps> = ({
@@ -16,25 +17,16 @@ const DangerButton: FC<DangerButtonProps> = ({
     style,
     disabled,
     helperText,
+    isContained,
 }) => {
     return (
-        // <Button
-        //     variant='outlined'
-        //     color='error'
-        //     onClick={onClickHanlder}
-        //     disabled={disabled}
-        //     sx={style}
-        // >
-        //     {children}
-        // </Button>
-
         <MuiButton
             props={{
                 children,
                 disabled,
                 onClick: onClickHanlder,
                 sx: style,
-                variant: 'outlined',
+                variant: isContained ? 'contained' : 'outlined',
                 color: 'error',
             }}
             helperText={helperText}

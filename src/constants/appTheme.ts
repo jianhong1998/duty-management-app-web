@@ -8,6 +8,7 @@ export const Color = {
     red: colors.red[700],
     white: '#ffffff',
     orange: colors.orange[700],
+    blue: colors.blue,
 };
 
 let appTheme = createTheme({
