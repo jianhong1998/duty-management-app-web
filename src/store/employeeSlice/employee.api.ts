@@ -7,6 +7,14 @@ interface IEmployeeGetAllRequestConfig {
     token: string;
 }
 
+interface IEmployeeDeactivateRequestConfig {
+    token: string;
+    employeeId: number;
+}
+
+interface IEmployeeReactivateRequestConfig
+    extends IEmployeeDeactivateRequestConfig {}
+
 export const employeeApi = createApi({
     reducerPath: 'employeeApi',
     baseQuery: fetchBaseQuery({
@@ -27,7 +35,35 @@ export const employeeApi = createApi({
                 };
             },
         }),
+        deactivateEmployee: builder.mutation<
+            StandardResponse<IEmployee[]>,
+            IEmployeeDeactivateRequestConfig
+        >({
+            query: ({ employeeId, token }) => ({
+                url: `/${employeeId}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
+        reactivateEmployee: builder.mutation<
+            StandardResponse<IEmployee>,
+            IEmployeeReactivateRequestConfig
+        >({
+            query: ({ token, employeeId }) => ({
+                url: `/reactivate/${employeeId}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
     }),
 });
 
-export const { useGetAllEmployeesQuery } = employeeApi;
+export const {
+    useGetAllEmployeesQuery,
+    useDeactivateEmployeeMutation,
+    useReactivateEmployeeMutation,
+} = employeeApi;

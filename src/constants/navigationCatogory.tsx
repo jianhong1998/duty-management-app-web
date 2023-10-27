@@ -29,6 +29,7 @@ const navigationCategories: INavigationItem[] = [
     {
         tagName: 'Monthly Duty Schedule',
         icon: <CalendarMonthIcon />,
+        disabledFor: UserAccountRoleType.USER,
         path: '/duty-schedule',
     },
     {
