@@ -33,14 +33,20 @@ const MonthlyScheduleTableRow: FC<MonthlyScheduleTableRowProps> = ({
                 tableCellArray.push(
                     <TableCell
                         key={date}
-                        sx={{ backgroundColor: scheduleInfo?.backgroundColor }}
+                        sx={{
+                            backgroundColor: scheduleInfo?.backgroundColor,
+                            textAlign: 'center',
+                        }}
                     >{`${scheduleInfo?.startTime} - ${scheduleInfo?.endTime}`}</TableCell>,
                 );
             } else {
                 tableCellArray.push(
                     <TableCell
                         key={date}
-                        sx={{ backgroundColor: Color.grey }}
+                        sx={{
+                            backgroundColor: Color.grey,
+                            textAlign: 'center',
+                        }}
                     >
                         -
                     </TableCell>,
