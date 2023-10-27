@@ -19,6 +19,7 @@ interface MonthlyScheduleState {
         timeSlots: ResponseTimeSlot[];
         monthlyDutySchedules: IMonthlyDutySchedule[];
     };
+    isRecordConfirmed: boolean | null;
 }
 
 const initialState: MonthlyScheduleState = {
@@ -32,6 +33,7 @@ const initialState: MonthlyScheduleState = {
         monthlyDutySchedules: [],
         timeSlots: [],
     },
+    isRecordConfirmed: null,
 };
 const setOptions = (
     state: MonthlyScheduleState,
@@ -47,6 +49,8 @@ const clearRecords = (state: MonthlyScheduleState) => {
         monthlyDutySchedules: [],
         timeSlots: [],
     };
+
+    state.isRecordConfirmed = null;
 };
 
 const clearOptions = (state: MonthlyScheduleState) => {
@@ -68,6 +72,18 @@ const monthlyScheduleSlice = createSlice({
                 (state, action) => {
                     if (action.payload.isSuccess) {
                         state.records = action.payload.data;
+
+                        let isConfirmed = true;
+
+                        action.payload.data.monthlyDutySchedules.forEach(
+                            (dutySchedule) => {
+                                if (!dutySchedule.isConfirmed) {
+                                    isConfirmed = false;
+                                }
+                            },
+                        );
+
+                        state.isRecordConfirmed = isConfirmed;
                     }
                 },
             )
@@ -81,6 +97,62 @@ const monthlyScheduleSlice = createSlice({
                         monthlyDutySchedules: [],
                         timeSlots: [],
                     };
+                    state.isRecordConfirmed = null;
+                },
+            )
+            .addMatcher(
+                monthlyScheduleApi.endpoints.deleteMonthlyDutySchedulesByMonth
+                    .matchFulfilled,
+                (state) => {
+                    state.records = {
+                        monthInfo: null,
+                        employees: [],
+                        monthlyDutySchedules: [],
+                        timeSlots: [],
+                    };
+                    state.isRecordConfirmed = null;
+                },
+            )
+            .addMatcher(
+                monthlyScheduleApi.endpoints.postMonthlyDutyScheduleByMonth
+                    .matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        state.records = action.payload.data;
+
+                        let isConfirmed = true;
+
+                        action.payload.data.monthlyDutySchedules.forEach(
+                            (dutySchedule) => {
+                                if (!dutySchedule.isConfirmed) {
+                                    isConfirmed = false;
+                                }
+                            },
+                        );
+
+                        state.isRecordConfirmed = isConfirmed;
+                    }
+                },
+            )
+            .addMatcher(
+                monthlyScheduleApi.endpoints.confirmMonthlyDutyScheduleByMonth
+                    .matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        state.records = action.payload.data;
+
+                        let isConfirmed = true;
+
+                        action.payload.data.monthlyDutySchedules.forEach(
+                            (dutySchedule) => {
+                                if (!dutySchedule.isConfirmed) {
+                                    isConfirmed = false;
+                                }
+                            },
+                        );
+
+                        state.isRecordConfirmed = isConfirmed;
+                    }
                 },
             );
     },

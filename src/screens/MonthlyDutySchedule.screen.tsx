@@ -5,7 +5,11 @@ import { PageTitle } from '../constants/pageTitle';
 import SearchMonthlyScheduleForm from '../components/forms/monthlyScheduleForms/SearchMonthlyScheduleForm';
 import { Stack } from '@mui/material';
 import { Color } from '../constants/appTheme';
-import { useGetMonthlyDutySchedulesByMonthQuery } from '../store/monthlyScheduleSice/monthlySchedule.api';
+import {
+    useDeleteMonthlyDutySchedulesByMonthMutation,
+    useGetMonthlyDutySchedulesByMonthQuery,
+    usePostMonthlyDutyScheduleByMonthMutation,
+} from '../store/monthlyScheduleSice/monthlySchedule.api';
 import { loadingSliceActions } from '../store/loadingSlice/loading.slice';
 import { QueryStatus } from '@reduxjs/toolkit/query/react';
 import ErrorHandler from '../utils/errorHandler';
@@ -40,20 +44,39 @@ const MonthlyDutySchedulePage: FC = () => {
         },
     );
 
+    const [_post, { status: postStatus }] =
+        usePostMonthlyDutyScheduleByMonthMutation({
+            fixedCacheKey: 'sharePostMonthlyDutyScheduleResult',
+        });
+
+    const [_delete, { status: deleteStatus }] =
+        useDeleteMonthlyDutySchedulesByMonthMutation({
+            fixedCacheKey: 'shareDeleteMonthlyDutyScheduleResult',
+        });
+
     useEffect(() => {
         dispatch(setPageTitle(PageTitle.MONTHLY_DUTY_SCHEDULE));
     }, [dispatch, setPageTitle]);
 
     useEffect(() => {
         const loadingCondition =
-            getMonthlyDutyScheduleStatus === QueryStatus.pending;
+            getMonthlyDutyScheduleStatus === QueryStatus.pending ||
+            deleteStatus === QueryStatus.pending ||
+            postStatus === QueryStatus.pending;
 
         if (loadingCondition) {
             dispatch(openLoading());
         } else {
             dispatch(closeLoading());
         }
-    }, [getMonthlyDutyScheduleStatus, dispatch, openLoading, closeLoading]);
+    }, [
+        getMonthlyDutyScheduleStatus,
+        deleteStatus,
+        postStatus,
+        dispatch,
+        openLoading,
+        closeLoading,
+    ]);
 
     useEffect(() => {
         if (

@@ -23,11 +23,20 @@ export interface IMonthlyDutyScheduleResponse {
     timeSlots: ResponseTimeSlot[];
 }
 
-export interface IGetMonthlyDutyScheduleByIdRequest {
+export interface IGetMonthlyDutyScheduleByMonthRequest {
     token: string;
     month: number;
     year: number;
 }
+
+export type IPostMonthlyDutyScheduleByMonthRequest =
+    IGetMonthlyDutyScheduleByMonthRequest;
+
+export type IConfirmMonthlyDutyScheduleByMonthRequest =
+    IGetMonthlyDutyScheduleByMonthRequest;
+
+export type IDeleteMonthlyDutyScheduleByMonthRequest =
+    IGetMonthlyDutyScheduleByMonthRequest;
 
 export interface IScheduleShortInfo {
     date: number;

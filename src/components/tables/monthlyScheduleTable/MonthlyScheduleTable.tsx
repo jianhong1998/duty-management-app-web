@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 import { useAppSelector } from '../../../store/index.store';
 import {
     Box,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -14,10 +15,14 @@ import MonthlyDutyScheduleTableUtil from '../../../utils/monthlyDutySchedule/mon
 import { IMonthInfo } from '../../../models/monthlyDutySchedule/monthlyDutySchedule.model';
 import moment from 'moment';
 import DateTimeUtil from '../../../utils/dateTimeUtil';
+import ConfirmBadge from '../../common/badge/ConfirmBadge';
 
 const MonthlyScheduleTable: FC = () => {
     const { employees, monthlyDutySchedules, timeSlots, monthInfo } =
         useAppSelector((state) => state.monthlyScheduleSlice.records);
+    const { isRecordConfirmed } = useAppSelector(
+        (state) => state.monthlyScheduleSlice,
+    );
 
     const tableDataArray =
         MonthlyDutyScheduleTableUtil.convertDataToTableRowData({
@@ -87,7 +92,17 @@ const MonthlyScheduleTable: FC = () => {
                             colSpan={monthInfo?.totalDays}
                             sx={{ fontWeight: 'bold' }}
                         >
-                            Dates
+                            <Stack
+                                direction={'row'}
+                                gap={2}
+                            >
+                                Dates
+                                <Box width={150}>
+                                    <ConfirmBadge
+                                        isConfirmed={isRecordConfirmed || false}
+                                    />
+                                </Box>
+                            </Stack>
                         </TableCell>
                     </TableRow>
                     <TableRow>
