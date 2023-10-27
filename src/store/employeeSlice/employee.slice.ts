@@ -25,14 +25,51 @@ const employeeSlice = createSlice({
         setEmployees,
     },
     extraReducers: (builder) => {
-        builder.addMatcher(
-            employeeApi.endpoints.getAllEmployees.matchFulfilled,
-            (state, action) => {
-                if (action.payload.isSuccess) {
-                    state.employees = action.payload.data;
-                }
-            },
-        );
+        builder
+            .addMatcher(
+                employeeApi.endpoints.getAllEmployees.matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        state.employees = action.payload.data;
+                    }
+                },
+            )
+            .addMatcher(
+                employeeApi.endpoints.deactivateEmployee.matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        const employeeId = action.payload.data[0].id;
+
+                        state.employees.forEach((employee) => {
+                            if (
+                                employee.id === employeeId &&
+                                action.payload.isSuccess
+                            ) {
+                                employee.isActive =
+                                    action.payload.data[0].isActive;
+                            }
+                        });
+                    }
+                },
+            )
+            .addMatcher(
+                employeeApi.endpoints.reactivateEmployee.matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        const employeeId = action.payload.data.id;
+
+                        state.employees.forEach((employee) => {
+                            if (
+                                employee.id === employeeId &&
+                                action.payload.isSuccess
+                            ) {
+                                employee.isActive =
+                                    action.payload.data.isActive;
+                            }
+                        });
+                    }
+                },
+            );
     },
 });
 
