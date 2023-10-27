@@ -6,6 +6,7 @@ enum SliceName {
     POPUP = 'popupSlice',
     EMPLOYEE_FORM = 'employeeFormSlice',
     TIME_SLOT = 'timeSlotSlice',
+    MONTHLY_SCHEDULE = 'monthlyScheduleSlice',
 }
 
 export default SliceName;

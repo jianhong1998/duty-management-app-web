@@ -10,6 +10,7 @@ import NotFoundPage from './screens/NotFound.screen';
 import EmployeePage from './screens/Employee.screen';
 import AddEmployeePage from './screens/AddEmployee.screen';
 import EditProfile from './screens/EditProfile.screen';
+import MonthlyDutySchedulePage from './screens/MonthlyDutySchedule.screen';
 
 function App() {
     return (
@@ -34,6 +35,10 @@ function App() {
                     <Route
                         path='/edit-profile'
                         element={<EditProfile />}
+                    />
+                    <Route
+                        path='/duty-schedule'
+                        element={<MonthlyDutySchedulePage />}
                     />
                     <Route
                         path='*'

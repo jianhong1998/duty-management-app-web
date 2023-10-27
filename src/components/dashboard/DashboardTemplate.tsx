@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import DashboardNavigator from './DashboardNavigator';
@@ -15,7 +15,10 @@ import { loadingSliceActions } from '../../store/loadingSlice/loading.slice';
 
 const DashboardTemplate: FC = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const isSmUp = useMediaQuery(appTheme.breakpoints.up('sm'));
+    const isMdUp = useMediaQuery(appTheme.breakpoints.up('md'));
+    const [documentWidth, setDocumentWidth] = useState(
+        document.body.offsetWidth,
+    );
 
     const navigate = useNavigate();
 
@@ -26,6 +29,10 @@ const DashboardTemplate: FC = () => {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const handleWindowResize = useCallback(() => {
+        setDocumentWidth(document.body.clientWidth);
+    }, []);
 
     useEffect(() => {
         dispatch(openLoading());
@@ -53,15 +60,27 @@ const DashboardTemplate: FC = () => {
             });
     }, [dispatch, navigate, openLoading, closeLoading]);
 
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => window.removeEventListener('resize', handleWindowResize);
+    }, [handleWindowResize]);
+
     return (
         <>
-            <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    minHeight: '100vh',
+                    width: documentWidth,
+                }}
+            >
                 <CssBaseline />
                 <Box
                     component='nav'
-                    sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
+                    sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}
                 >
-                    {isSmUp ? null : (
+                    {isMdUp ? null : (
                         <DashboardNavigator
                             PaperProps={{ style: { width: DRAWER_WIDTH } }}
                             variant='temporary'
@@ -71,10 +90,22 @@ const DashboardTemplate: FC = () => {
                     )}
                     <DashboardNavigator
                         PaperProps={{ style: { width: DRAWER_WIDTH } }}
-                        sx={{ display: { sm: 'block', xs: 'none' } }}
+                        sx={{
+                            display: { md: 'block', sm: 'none', xs: 'none' },
+                        }}
                     />
                 </Box>
-                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: {
+                            xs: '100%',
+                            md: documentWidth - DRAWER_WIDTH,
+                        },
+                    }}
+                >
                     <DashboardHeader onDrawerToggle={handleDrawerToggle} />
                     <Box
                         component='main'

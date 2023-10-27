@@ -22,5 +22,9 @@ module.exports = {
                 trailingComma: 'all',
             },
         ],
+        '@typescript-eslint/no-unused-vars': [
+            'error',
+            { varsIgnorePattern: '^_' },
+        ],
     },
 };

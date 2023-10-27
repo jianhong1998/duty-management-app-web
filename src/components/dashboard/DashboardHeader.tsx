@@ -2,15 +2,14 @@ import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { FC } from 'react';
-import ProfileImageHolder from '../profileImageHolder/ProfileImageHolder';
 import { useAppDispatch, useAppSelector } from '../../store/index.store';
 import { loginSliceActions } from '../../store/loginSlice/login.slice';
 import { useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DangerButton from '../common/buttons/DangerButton';
 
 interface HeaderProps {
     onDrawerToggle: () => void;
@@ -54,7 +53,13 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                         alignItems='center'
                     >
                         <Grid
-                            sx={{ display: { sm: 'none', xs: 'block' } }}
+                            sx={{
+                                display: {
+                                    md: 'none',
+                                    sm: 'block',
+                                    xs: 'block',
+                                },
+                            }}
                             item
                         >
                             <IconButton
@@ -83,17 +88,12 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                             xs
                         />
                         <Grid item>
-                            <Tooltip title='Alerts • No alerts'>
-                                <IconButton color='inherit'>
-                                    <NotificationsIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item>
-                            <ProfileImageHolder
-                                source=''
-                                onClick={logout}
-                            />
+                            <DangerButton
+                                onClickHanlder={logout}
+                                isContained={true}
+                            >
+                                <LogoutIcon />
+                            </DangerButton>
                         </Grid>
                     </Grid>
                 </Toolbar>
