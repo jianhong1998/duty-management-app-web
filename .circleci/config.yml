@@ -41,7 +41,7 @@ jobs:
             - checkout
             - aws-s3/sync:
                   from: dist
-                  to: 's3://dma-static-web-page/'
+                  to: 's3://app.staging-dutysimple.link/'
                   aws-access-key-id: AWS_ACCESS_KEY
                   aws-secret-access-key: AWS_SECRET_ACCESS_KEY
                   aws-region: AWS_REGION
