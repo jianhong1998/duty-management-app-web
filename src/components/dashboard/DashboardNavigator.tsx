@@ -43,7 +43,7 @@ const DashboardNavigator: FC<DrawerProps> = (props) => {
                     }}
                     key={'title'}
                 >
-                    Duty Management App
+                    DutySimple
                 </ListItem>
                 <Box
                     key={'dashboardNavigator-container'}
