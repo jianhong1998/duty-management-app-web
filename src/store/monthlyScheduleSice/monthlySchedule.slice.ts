@@ -7,11 +7,17 @@ import {
 } from '../../models/monthlyDutySchedule/monthlyDutySchedule.model';
 import monthlyScheduleApi from './monthlySchedule.api';
 import { ResponseTimeSlot } from '../../models/timeSlot/timeSlot.model';
+import userMonthlyScheduleApi from './userMonthlySchedule.api';
+import moment from 'moment';
 
 interface MonthlyScheduleState {
     options: {
         month: number | null;
         year: number | null;
+    };
+    homeOptions: {
+        month: number;
+        year: number;
     };
     records: {
         monthInfo: IMonthInfo | null;
@@ -24,8 +30,12 @@ interface MonthlyScheduleState {
 
 const initialState: MonthlyScheduleState = {
     options: {
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
+        month: moment().month() + 1,
+        year: moment().year(),
+    },
+    homeOptions: {
+        month: moment().month() + 1,
+        year: moment().year(),
     },
     records: {
         monthInfo: null,
@@ -60,10 +70,20 @@ const clearOptions = (state: MonthlyScheduleState) => {
     };
 };
 
+const setHomeOptions = (
+    state: MonthlyScheduleState,
+    action: PayloadAction<Pick<IMonthInfo, 'month' | 'year'>>,
+) => {
+    state.homeOptions = {
+        year: action.payload.year,
+        month: action.payload.month,
+    };
+};
+
 const monthlyScheduleSlice = createSlice({
     name: SliceName.MONTHLY_SCHEDULE,
     initialState,
-    reducers: { setOptions, clearOptions, clearRecords },
+    reducers: { setOptions, clearOptions, clearRecords, setHomeOptions },
     extraReducers: (builder) => {
         builder
             .addMatcher(
@@ -90,28 +110,12 @@ const monthlyScheduleSlice = createSlice({
             .addMatcher(
                 monthlyScheduleApi.endpoints.getMonthlyDutySchedulesByMonth
                     .matchRejected,
-                (state) => {
-                    state.records = {
-                        monthInfo: null,
-                        employees: [],
-                        monthlyDutySchedules: [],
-                        timeSlots: [],
-                    };
-                    state.isRecordConfirmed = null;
-                },
+                clearRecords,
             )
             .addMatcher(
                 monthlyScheduleApi.endpoints.deleteMonthlyDutySchedulesByMonth
                     .matchFulfilled,
-                (state) => {
-                    state.records = {
-                        monthInfo: null,
-                        employees: [],
-                        monthlyDutySchedules: [],
-                        timeSlots: [],
-                    };
-                    state.isRecordConfirmed = null;
-                },
+                clearRecords,
             )
             .addMatcher(
                 monthlyScheduleApi.endpoints.postMonthlyDutyScheduleByMonth
@@ -154,6 +158,22 @@ const monthlyScheduleSlice = createSlice({
                         state.isRecordConfirmed = isConfirmed;
                     }
                 },
+            )
+            .addMatcher(
+                userMonthlyScheduleApi.endpoints
+                    .userGetMonthlyDutyScheduleByMonth.matchFulfilled,
+                (state, action) => {
+                    if (action.payload.isSuccess) {
+                        state.records = action.payload.data;
+                    }
+
+                    state.isRecordConfirmed = true;
+                },
+            )
+            .addMatcher(
+                userMonthlyScheduleApi.endpoints
+                    .userGetMonthlyDutyScheduleByMonth.matchRejected,
+                clearRecords,
             );
     },
 });

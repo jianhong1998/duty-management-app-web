@@ -45,11 +45,11 @@ export default class MonthlyDutyScheduleTableUtil {
                             const date = moment(schedule.date).date();
 
                             const startTime = timeSlot
-                                ? moment(timeSlot.startTime).format('HH:mma')
+                                ? moment(timeSlot.startTime).format('hh:mmA')
                                 : '';
 
                             const endTime = timeSlot
-                                ? moment(timeSlot.endTime).format('HH:mma')
+                                ? moment(timeSlot.endTime).format('hh:mmA')
                                 : '';
 
                             return {

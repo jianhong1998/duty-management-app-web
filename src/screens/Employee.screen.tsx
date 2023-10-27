@@ -85,6 +85,7 @@ const EmployeePage: FC = () => {
                     borderRadius: 4,
                     boxShadow: 5,
                 }}
+                overflow={'scroll'}
             >
                 {errorMessage !== null && (
                     <Typography>{errorMessage}</Typography>
