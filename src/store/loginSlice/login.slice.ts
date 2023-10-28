@@ -2,12 +2,14 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import SliceName from '../sliceName';
 import { loginFn, verifyToken } from './login.thunk';
 import { UserAccountRoleType } from '../../models/userAccount/userAccountRoleType.enum';
+import UserAccountStatus from '../../models/userAccount/userAccountStatus.enum';
 
 interface LoginState {
     token: string | null;
     username: string | null;
     accountType: UserAccountRoleType | null;
     employeeId: number | null;
+    accountStatus: UserAccountStatus | null;
 }
 
 const initialState: LoginState = {
@@ -15,14 +17,20 @@ const initialState: LoginState = {
     username: null,
     accountType: null,
     employeeId: null,
+    accountStatus: null,
 };
 
 const setTokenAndUsername = (
     state: LoginState,
-    action: PayloadAction<{ token: string | null; username: string | null }>,
+    action: PayloadAction<{
+        token: string | null;
+        username: string | null;
+        accountStatus: UserAccountStatus | null;
+    }>,
 ) => {
     state.token = action.payload.token;
     state.username = action.payload.username;
+    state.accountStatus = action.payload.accountStatus;
 };
 
 const loginSlice = createSlice({
@@ -45,11 +53,16 @@ const loginSlice = createSlice({
                     'accountType',
                     action.payload.data.accountType,
                 );
+                localStorage.setItem(
+                    'accountStatus',
+                    action.payload.data.accountStatus,
+                );
 
                 state.username = action.payload.data.name;
                 state.token = action.payload.data.token;
                 state.accountType = action.payload.data.accountType;
                 state.employeeId = action.payload.data.employeeId;
+                state.accountStatus = action.payload.data.accountStatus;
             }
         });
 
@@ -61,6 +74,11 @@ const loginSlice = createSlice({
                     (localStorage.getItem(
                         'accountType',
                     ) as UserAccountRoleType) || UserAccountRoleType.USER;
+
+                state.accountStatus =
+                    (localStorage.getItem(
+                        'accountStatus',
+                    ) as UserAccountStatus) || null;
 
                 const employeeIdInString = localStorage.getItem('employeeId');
 

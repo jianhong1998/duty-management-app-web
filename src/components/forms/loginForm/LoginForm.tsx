@@ -19,6 +19,7 @@ import EmailChecker from '../../../utils/emailChecker';
 import { useNavigate } from 'react-router-dom';
 import ErrorHandler from '../../../utils/errorHandler';
 import ToastifyController from '../../../utils/toastifyController';
+import SecondaryButton from '../../common/buttons/SecondaryButton';
 
 const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -91,6 +92,12 @@ const LoginForm: FC = () => {
         navigate('/');
     }, [navigate]);
 
+    const forgetPasswordButtonOnclickHandler: MouseEventHandler<
+        HTMLButtonElement
+    > = () => {
+        navigate('/forget-password');
+    };
+
     useEffect(() => {
         if (token !== null) {
             homePageRedirectHandler();
@@ -135,8 +142,14 @@ const LoginForm: FC = () => {
                     disabled={email.length === 0 || password.length === 0}
                     ref={submitButtonRef}
                 >
-                    Submit
+                    Login
                 </Button>
+                <SecondaryButton
+                    style={{ width: '100%' }}
+                    onClickHanlder={forgetPasswordButtonOnclickHandler}
+                >
+                    Forget Password
+                </SecondaryButton>
             </div>
         </>
     );
