@@ -65,25 +65,25 @@ function App() {
         dispatch(verifyToken())
             .unwrap()
             .then((isValid) => {
-                if (
-                    isValid &&
-                    accountStatus === UserAccountStatus.RESETING_PASSWORD
-                ) {
+                if (!isValid) {
+                    navigate('/login');
+                    return;
+                }
+
+                if (accountStatus === UserAccountStatus.RESETING_PASSWORD) {
                     navigate('/reset-password');
                     return;
                 }
 
                 if (
-                    isValid &&
-                    (location.pathname === '/login' ||
-                        location.pathname === 'forgetPassword')
+                    location.pathname === '/login' ||
+                    location.pathname === 'forgetPassword'
                 ) {
                     navigate('/');
                     return;
                 }
 
                 if (
-                    isValid &&
                     accountStatus === UserAccountStatus.ACTIVE &&
                     location.pathname === '/reset-password'
                 ) {
