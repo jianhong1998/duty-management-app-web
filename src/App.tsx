@@ -91,6 +91,7 @@ function App() {
     }, [
         token,
         accountStatus,
+        location.pathname,
         dispatch,
         setTokenAndUsername,
         openLoading,
