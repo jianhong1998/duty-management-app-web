@@ -40,10 +40,18 @@ const setAccountStatus = (
     state.accountStatus = action.payload;
 };
 
+const clear = (state: LoginState) => {
+    state.token = null;
+    state.accountStatus = null;
+    state.accountType = null;
+    state.employeeId = null;
+    state.username = null;
+};
+
 const loginSlice = createSlice({
     name: SliceName.LOGIN,
     initialState,
-    reducers: { setTokenAndUsername, setAccountStatus },
+    reducers: { setTokenAndUsername, setAccountStatus, clear },
     extraReducers: (builder) => {
         builder.addCase(loginFn.fulfilled, (state, action) => {
             if (
