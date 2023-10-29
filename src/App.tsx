@@ -81,6 +81,15 @@ function App() {
                     navigate('/');
                     return;
                 }
+
+                if (
+                    isValid &&
+                    accountStatus === UserAccountStatus.ACTIVE &&
+                    location.pathname === '/reset-password'
+                ) {
+                    navigate('/');
+                    return;
+                }
             })
             .catch((error) => {
                 alert(error.message);
