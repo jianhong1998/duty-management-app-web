@@ -67,7 +67,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
             <FormControl
                 fullWidth
                 className={getClassName()}
-                sx={{ m: 1 }}
+                sx={{ m: 1, margin: 0 }}
                 variant='outlined'
             >
                 <InputLabel htmlFor={id}>{label}</InputLabel>
