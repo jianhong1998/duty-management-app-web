@@ -33,10 +33,17 @@ const setTokenAndUsername = (
     state.accountStatus = action.payload.accountStatus;
 };
 
+const setAccountStatus = (
+    state: LoginState,
+    action: PayloadAction<UserAccountStatus>,
+) => {
+    state.accountStatus = action.payload;
+};
+
 const loginSlice = createSlice({
     name: SliceName.LOGIN,
     initialState,
-    reducers: { setTokenAndUsername },
+    reducers: { setTokenAndUsername, setAccountStatus },
     extraReducers: (builder) => {
         builder.addCase(loginFn.fulfilled, (state, action) => {
             if (

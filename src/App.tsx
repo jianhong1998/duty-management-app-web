@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import HomePage from './screens/Home.screen';
 import LoginPage from './screens/Login.screen';
 import Loading from './components/common/loading/Loading';
@@ -26,6 +26,7 @@ function App() {
     );
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const dispatch = useAppDispatch();
 
@@ -34,13 +35,19 @@ function App() {
 
     useEffect(() => {
         if (
-            !localStorage.getItem('token') ||
-            !localStorage.getItem('username') ||
-            !localStorage.getItem('accountStatus')
+            (!localStorage.getItem('token') ||
+                !localStorage.getItem('username') ||
+                !localStorage.getItem('accountStatus')) &&
+            !(
+                location.pathname === '/login' ||
+                location.pathname === '/forget-password'
+            )
         ) {
             navigate('/login');
         }
+    }, [location.pathname, navigate]);
 
+    useEffect(() => {
         if (!token) {
             dispatch(
                 setTokenAndUsername({
@@ -66,7 +73,11 @@ function App() {
                     return;
                 }
 
-                if (isValid) {
+                if (
+                    isValid &&
+                    (location.pathname === '/login' ||
+                        location.pathname === 'forgetPassword')
+                ) {
                     navigate('/');
                     return;
                 }
