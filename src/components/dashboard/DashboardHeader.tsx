@@ -24,17 +24,12 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
 
     const dispatch = useAppDispatch();
 
-    const { setTokenAndUsername } = loginSliceActions;
+    const { clear: clearLoginSlice } = loginSliceActions;
 
     const logout = () => {
         localStorage.clear();
 
-        dispatch(
-            setTokenAndUsername({
-                token: null,
-                username: null,
-            }),
-        );
+        dispatch(clearLoginSlice());
 
         navigate('/login');
     };

@@ -1,4 +1,5 @@
 import { UserAccountRoleType } from '../userAccount/userAccountRoleType.enum';
+import UserAccountStatus from '../userAccount/userAccountStatus.enum';
 import StandardResponse from './standardResponse';
 
 interface LoginSuccessResponse {
@@ -7,6 +8,7 @@ interface LoginSuccessResponse {
     name: string;
     employeeId: number | null;
     accountType: UserAccountRoleType;
+    accountStatus: UserAccountStatus;
 }
 
 interface LoginFailureResponse {

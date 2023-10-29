@@ -17,6 +17,7 @@ import { timeSlotSliceReducer } from './timeSlotSlice/timeSlot.slice';
 import { monthlyScheduleSliceReducer } from './monthlyScheduleSice/monthlySchedule.slice';
 import monthlyScheduleApi from './monthlyScheduleSice/monthlySchedule.api';
 import userMonthlyScheduleApi from './monthlyScheduleSice/userMonthlySchedule.api';
+import passwordApi from './api/password.api';
 
 const appReducer = combineReducers({
     [SliceName.LOGIN]: loginSliceReducer,
@@ -34,6 +35,7 @@ const appReducer = combineReducers({
     [employeeTimeSlotApi.reducerPath]: employeeTimeSlotApi.reducer,
     [monthlyScheduleApi.reducerPath]: monthlyScheduleApi.reducer,
     [userMonthlyScheduleApi.reducerPath]: userMonthlyScheduleApi.reducer,
+    [passwordApi.reducerPath]: passwordApi.reducer,
 });
 
 const store = configureStore({
@@ -46,7 +48,8 @@ const store = configureStore({
             .concat(userAccountApi.middleware)
             .concat(employeeTimeSlotApi.middleware)
             .concat(monthlyScheduleApi.middleware)
-            .concat(userMonthlyScheduleApi.middleware),
+            .concat(userMonthlyScheduleApi.middleware)
+            .concat(passwordApi.middleware),
 });
 
 type RootState = ReturnType<typeof store.getState>;
