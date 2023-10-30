@@ -48,6 +48,10 @@ function App() {
     }, [location.pathname, navigate]);
 
     useEffect(() => {
+        if (!token && !localStorage.getItem('token')) {
+            return;
+        }
+
         if (!token) {
             dispatch(
                 setTokenAndUsername({
@@ -77,7 +81,7 @@ function App() {
 
                 if (
                     location.pathname === '/login' ||
-                    location.pathname === 'forgetPassword'
+                    location.pathname === '/forgetPassword'
                 ) {
                     navigate('/');
                     return;
