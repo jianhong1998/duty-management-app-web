@@ -2,9 +2,14 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BACKEND_API } from '../../constants/backendApi';
 import { IEmployee } from '../../models/employee/employee.model';
 import StandardResponse from '../../models/httpResponses/standardResponse';
+import IPagination from '../../models/pagination/pagination.model';
 
 interface IEmployeeGetAllRequestConfig {
     token: string;
+    pageNumber: number;
+    pageSize: number;
+    sortBy?: string;
+    sortOrder?: string;
 }
 
 interface IEmployeeDeactivateRequestConfig {
@@ -22,12 +27,21 @@ export const employeeApi = createApi({
     }),
     endpoints: (builder) => ({
         getAllEmployees: builder.query<
-            StandardResponse<IEmployee[]>,
+            StandardResponse<{
+                employees: IEmployee[];
+                paginationInfo: IPagination;
+            }>,
             IEmployeeGetAllRequestConfig
         >({
-            query: ({ token }) => {
+            query: ({ token, pageNumber, pageSize, sortBy, sortOrder }) => {
+                let url = `/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+                if (sortBy && sortOrder) {
+                    url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+                }
+
                 return {
-                    url: '',
+                    url,
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
