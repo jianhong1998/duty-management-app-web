@@ -44,7 +44,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
         {
             field: 'id',
             headerName: 'ID',
-            width: 100,
+            width: 80,
         },
         {
             field: 'name',
@@ -74,7 +74,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
             field: 'isActive',
             headerName: 'Active Status',
             type: 'boolean',
-            width: 180,
+            width: 160,
             headerAlign: 'left',
             renderCell: (params) => (
                 <Box
