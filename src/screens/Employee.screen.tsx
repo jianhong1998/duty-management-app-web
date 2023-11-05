@@ -3,18 +3,24 @@ import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/index.store';
 import { dashboardSliceActions } from '../store/dashboardSlice/dashboard.slice';
 import { PageTitle } from '../constants/pageTitle';
-import { useGetAllEmployeesQuery } from '../store/employeeSlice/employee.api';
+import {
+    useDeactivateEmployeeMutation,
+    useGetAllEmployeesQuery,
+} from '../store/employeeSlice/employee.api';
 import ErrorHandler from '../utils/errorHandler';
 import { employeeSliceActions } from '../store/employeeSlice/employee.slice';
 import { loadingSliceActions } from '../store/loadingSlice/loading.slice';
-import EmployeeTable from '../components/tables/EmployeeTable';
+import EmployeeTable from '../components/tables/employeeTable/EmployeeTable';
 import { Color } from '../constants/appTheme';
 import UpdateEmployeeFormPopup from '../components/common/popup/employeeFormPopup/UpdateEmployeeFormPopup';
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 
 const EmployeePage: FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const { employees } = useAppSelector((state) => state.employeeSlice);
+    const { employees, employeeTable } = useAppSelector(
+        (state) => state.employeeSlice,
+    );
     const { token } = useAppSelector((state) => state.loginSlice);
 
     const dispatch = useAppDispatch();
@@ -26,20 +32,42 @@ const EmployeePage: FC = () => {
     const { isError, error, isLoading } = useGetAllEmployeesQuery(
         {
             token: token!,
+            pageNumber: employeeTable.paginationModel.page + 1,
+            pageSize: employeeTable.paginationModel.pageSize,
+            sortBy: employeeTable.sortModel[0]?.field,
+            sortOrder: employeeTable.sortModel[0]?.sort?.toUpperCase(),
         },
         {
+            skip:
+                !token ||
+                employeeTable.paginationModel.page <= -1 ||
+                employeeTable.paginationModel.page > employeeTable.maxPage,
             pollingInterval: 3000,
-            skip: !token,
+            refetchOnMountOrArgChange: true,
         },
     );
 
+    const [_, { status: deactivateEmployeeMutationStatus }] =
+        useDeactivateEmployeeMutation({
+            fixedCacheKey: 'deactivateEmployeeFromDeactivateButton',
+        });
+
     useEffect(() => {
-        if (isLoading) {
+        if (
+            isLoading ||
+            deactivateEmployeeMutationStatus === QueryStatus.pending
+        ) {
             dispatch(openLoading());
         } else {
             dispatch(closeLoading());
         }
-    }, [isLoading, dispatch, openLoading, closeLoading]);
+    }, [
+        isLoading,
+        deactivateEmployeeMutationStatus,
+        dispatch,
+        openLoading,
+        closeLoading,
+    ]);
 
     useEffect(() => {
         dispatch(setPageTitle(PageTitle.EMPLOYEE));
@@ -85,7 +113,6 @@ const EmployeePage: FC = () => {
                     borderRadius: 4,
                     boxShadow: 5,
                 }}
-                overflow={'scroll'}
             >
                 {errorMessage !== null && (
                     <Typography>{errorMessage}</Typography>
