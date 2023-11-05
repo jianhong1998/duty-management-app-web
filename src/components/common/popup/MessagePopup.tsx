@@ -1,5 +1,3 @@
-import classes from './popup.module.scss';
-
 import {
     Dialog,
     DialogActions,
@@ -13,7 +11,7 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import { popupSliceActions } from '../../../store/popupSlice/popupSlice';
 import SecondaryButton from '../buttons/SecondaryButton';
 
-type CloseButtonOpions =
+type CloseButtonOptions =
     | {
           enableCloseButton: true;
           closeButtonTitle: string;
@@ -39,7 +37,7 @@ type ProceedButtonOptions =
 
 type PopupProps = {
     onCloseHandler?: () => void;
-} & CloseButtonOpions &
+} & CloseButtonOptions &
     ProceedButtonOptions;
 
 const Popup: FC<PopupProps> = ({
@@ -95,7 +93,7 @@ const Popup: FC<PopupProps> = ({
                 <DialogContent>
                     <DialogContentText>{content}</DialogContentText>
                 </DialogContent>
-                <DialogActions className={classes.buttonContainer}>
+                <DialogActions>
                     {enableCloseButton && (
                         <SecondaryButton
                             onClickHanlder={closeButtonOnClickHandler}
