@@ -27,7 +27,7 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
     const dispatch = useAppDispatch();
 
     const { clear: clearLoginSlice } = loginSliceActions;
-    const { openPopup, closePopup } = popupSliceActions;
+    const { openPopup } = popupSliceActions;
 
     const logout = () => {
         localStorage.clear();
@@ -46,10 +46,6 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
                 content: 'You will be loging out from the app.',
             }),
         );
-    };
-
-    const popupCloseButtonOnClickHandler = () => {
-        dispatch(closePopup());
     };
 
     return (
@@ -113,7 +109,6 @@ const DashboardHeader: FC<HeaderProps> = (props) => {
             </AppBar>
             <Popup
                 enableCloseButton
-                closeButtonFn={popupCloseButtonOnClickHandler}
                 closeButtonTitle='Cancel'
                 enableProceedButton
                 proceedButtonFn={logout}

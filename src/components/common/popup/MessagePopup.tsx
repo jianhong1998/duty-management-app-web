@@ -15,12 +15,12 @@ type CloseButtonOptions =
     | {
           enableCloseButton: true;
           closeButtonTitle: string;
-          closeButtonFn: () => void;
+          closeButtonFn?: () => void;
       }
     | {
-          enableCloseButton?: false;
-          closeButtonTitle: undefined;
-          closeButtonFn: undefined;
+          enableCloseButton: false;
+          closeButtonTitle?: undefined;
+          closeButtonFn?: undefined;
       };
 
 type ProceedButtonOptions =
@@ -30,9 +30,9 @@ type ProceedButtonOptions =
           proceedButtonFn: () => void;
       }
     | {
-          enableProceedButton?: false;
-          proceedButtonTitle: undefined;
-          proceedButtonFn: undefined;
+          enableProceedButton: false;
+          proceedButtonTitle?: undefined;
+          proceedButtonFn?: undefined;
       };
 
 type PopupProps = {
