@@ -1,5 +1,3 @@
-import classes from './popup.module.scss';
-
 import {
     Dialog,
     DialogActions,
@@ -13,16 +11,16 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import { popupSliceActions } from '../../../store/popupSlice/popupSlice';
 import SecondaryButton from '../buttons/SecondaryButton';
 
-type CloseButtonOpions =
+type CloseButtonOptions =
     | {
           enableCloseButton: true;
           closeButtonTitle: string;
-          closeButtonFn: () => void;
+          closeButtonFn?: () => void;
       }
     | {
-          enableCloseButton?: false;
-          closeButtonTitle: undefined;
-          closeButtonFn: undefined;
+          enableCloseButton: false;
+          closeButtonTitle?: undefined;
+          closeButtonFn?: undefined;
       };
 
 type ProceedButtonOptions =
@@ -32,14 +30,14 @@ type ProceedButtonOptions =
           proceedButtonFn: () => void;
       }
     | {
-          enableProceedButton?: false;
-          proceedButtonTitle: undefined;
-          proceedButtonFn: undefined;
+          enableProceedButton: false;
+          proceedButtonTitle?: undefined;
+          proceedButtonFn?: undefined;
       };
 
 type PopupProps = {
     onCloseHandler?: () => void;
-} & CloseButtonOpions &
+} & CloseButtonOptions &
     ProceedButtonOptions;
 
 const Popup: FC<PopupProps> = ({
@@ -95,7 +93,7 @@ const Popup: FC<PopupProps> = ({
                 <DialogContent>
                     <DialogContentText>{content}</DialogContentText>
                 </DialogContent>
-                <DialogActions className={classes.buttonContainer}>
+                <DialogActions>
                     {enableCloseButton && (
                         <SecondaryButton
                             onClickHanlder={closeButtonOnClickHandler}
