@@ -53,8 +53,8 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
         },
         {
             field: 'employmentType',
-            headerName: 'Employment Type',
-            width: 200,
+            headerName: 'Type',
+            width: 100,
         },
         {
             field: 'role',
@@ -74,7 +74,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
             field: 'isActive',
             headerName: 'Status',
             type: 'boolean',
-            width: 110,
+            width: 120,
             headerAlign: 'left',
             renderCell: (params) => (
                 <Box
@@ -93,7 +93,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ employees }) => {
             headerName: 'Actions',
             headerAlign: 'left',
             type: 'actions',
-            width: 225,
+            width: 220,
             align: 'left',
             getActions: (params) => [
                 <ViewAvailabilityButton
