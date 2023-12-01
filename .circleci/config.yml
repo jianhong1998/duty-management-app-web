@@ -24,6 +24,10 @@ jobs:
             - node/install-packages:
                   pkg-manager: npm
             - run:
+                  name: Generate .env
+                  command: |
+                      echo "VITE_BACKEND_URL=$BACKEND_URL" > .env
+            - run:
                   command: npm run build
             - persist_to_workspace:
                   root: .
@@ -41,7 +45,7 @@ jobs:
             - checkout
             - aws-s3/sync:
                   from: dist
-                  to: 's3://app.staging-dutysimple.link/'
+                  to: 's3://$AWS_S3'
                   aws-access-key-id: AWS_ACCESS_KEY
                   aws-secret-access-key: AWS_SECRET_ACCESS_KEY
                   aws-region: AWS_REGION
