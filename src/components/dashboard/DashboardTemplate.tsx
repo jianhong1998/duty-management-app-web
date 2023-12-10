@@ -8,10 +8,11 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import DashboardHeader from './DashboardHeader';
 import DashboardFooter from './DashboardFooter';
 import { useAppDispatch } from '../../store/index.store';
-import { verifyToken } from '../../store/loginSlice/login.thunk';
 import ToastifyController from '../../utils/toastifyController';
 import ErrorHandler from '../../utils/errorHandler';
 import { loadingSliceActions } from '../../store/loadingSlice/loading.slice';
+import { useLazyVerifyTokenQuery } from '../../store/api/auth.api';
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 
 const DashboardTemplate: FC = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,6 +27,15 @@ const DashboardTemplate: FC = () => {
 
     const { openLoading, closeLoading } = loadingSliceActions;
 
+    const [
+        verifyToken,
+        {
+            status: verifyTokenStatus,
+            data: verifyTokenData,
+            error: verifyTokenError,
+        },
+    ] = useLazyVerifyTokenQuery();
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -35,30 +45,35 @@ const DashboardTemplate: FC = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(openLoading());
+        const tokenInStorage = localStorage.getItem('token');
 
-        dispatch(verifyToken())
-            .unwrap()
-            .then((isAuth) => {
-                if (!isAuth) {
-                    ToastifyController.activeError(
-                        'Token is invalid or expired. Please login again.',
-                    );
+        verifyToken({ token: tokenInStorage || '' });
+    }, [verifyToken]);
 
-                    navigate('/login');
-                }
-            })
-            .catch((error) => {
-                if (error.message) {
-                    ErrorHandler.activeToast(new Error(error.message));
-                } else {
-                    ErrorHandler.activeToast(error);
-                }
-            })
-            .finally(() => {
-                dispatch(closeLoading());
-            });
-    }, [dispatch, navigate, openLoading, closeLoading]);
+    // Control loading
+    useEffect(() => {
+        if (verifyTokenStatus === QueryStatus.pending) {
+            dispatch(openLoading());
+            return;
+        }
+
+        dispatch(closeLoading());
+    }, [verifyTokenStatus, dispatch, openLoading, closeLoading]);
+
+    useEffect(() => {
+        if (verifyTokenStatus === QueryStatus.fulfilled && !verifyTokenData) {
+            ToastifyController.activeError(
+                'Token is invalid or expired. Please login again.',
+            );
+
+            navigate('/login');
+            return;
+        }
+
+        if (verifyTokenStatus === QueryStatus.rejected && verifyTokenError) {
+            ErrorHandler.activeToast(verifyTokenError);
+        }
+    }, [verifyTokenData, verifyTokenError, verifyTokenStatus, navigate]);
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);

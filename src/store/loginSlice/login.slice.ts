@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import SliceName from '../sliceName';
-import { loginFn, verifyToken } from './login.thunk';
 import { UserAccountRoleType } from '../../models/userAccount/userAccountRoleType.enum';
 import UserAccountStatus from '../../models/userAccount/userAccountStatus.enum';
+import { authApi } from '../api/auth.api';
 
 interface LoginState {
     token: string | null;
@@ -53,56 +53,70 @@ const loginSlice = createSlice({
     initialState,
     reducers: { setTokenAndUsername, setAccountStatus, clear },
     extraReducers: (builder) => {
-        builder.addCase(loginFn.fulfilled, (state, action) => {
-            if (
-                action.payload.isSuccess &&
-                action.payload.data.isLoginSuccess
-            ) {
-                localStorage.setItem('token', action.payload.data.token);
-                localStorage.setItem('username', action.payload.data.name);
-                localStorage.setItem(
-                    'employeeId',
-                    (action.payload.data.employeeId || -1).toString(),
-                );
-                localStorage.setItem(
-                    'accountType',
-                    action.payload.data.accountType,
-                );
-                localStorage.setItem(
-                    'accountStatus',
-                    action.payload.data.accountStatus,
-                );
+        builder
+            .addMatcher(
+                authApi.endpoints.verifyToken.matchFulfilled,
+                (state, action) => {
+                    if (action.payload) {
+                        state.token = localStorage.getItem('token');
+                        state.username = localStorage.getItem('username');
+                        state.accountType =
+                            (localStorage.getItem(
+                                'accountType',
+                            ) as UserAccountRoleType) ||
+                            UserAccountRoleType.USER;
 
-                state.username = action.payload.data.name;
-                state.token = action.payload.data.token;
-                state.accountType = action.payload.data.accountType;
-                state.employeeId = action.payload.data.employeeId;
-                state.accountStatus = action.payload.data.accountStatus;
-            }
-        });
+                        state.accountStatus =
+                            (localStorage.getItem(
+                                'accountStatus',
+                            ) as UserAccountStatus) || null;
 
-        builder.addCase(verifyToken.fulfilled, (state, action) => {
-            if (action.payload) {
-                state.token = localStorage.getItem('token');
-                state.username = localStorage.getItem('username');
-                state.accountType =
-                    (localStorage.getItem(
-                        'accountType',
-                    ) as UserAccountRoleType) || UserAccountRoleType.USER;
+                        const employeeIdInString =
+                            localStorage.getItem('employeeId');
 
-                state.accountStatus =
-                    (localStorage.getItem(
-                        'accountStatus',
-                    ) as UserAccountStatus) || null;
+                        state.employeeId =
+                            employeeIdInString === null
+                                ? null
+                                : Number.parseInt(employeeIdInString);
+                    }
+                },
+            )
+            .addMatcher(
+                authApi.endpoints.login.matchFulfilled,
+                (state, action) => {
+                    if (
+                        action.payload.isSuccess &&
+                        action.payload.data.isLoginSuccess
+                    ) {
+                        localStorage.setItem(
+                            'token',
+                            action.payload.data.token,
+                        );
+                        localStorage.setItem(
+                            'username',
+                            action.payload.data.name,
+                        );
+                        localStorage.setItem(
+                            'employeeId',
+                            (action.payload.data.employeeId || -1).toString(),
+                        );
+                        localStorage.setItem(
+                            'accountType',
+                            action.payload.data.accountType,
+                        );
+                        localStorage.setItem(
+                            'accountStatus',
+                            action.payload.data.accountStatus,
+                        );
 
-                const employeeIdInString = localStorage.getItem('employeeId');
-
-                state.employeeId =
-                    employeeIdInString === null
-                        ? null
-                        : Number.parseInt(employeeIdInString);
-            }
-        });
+                        state.username = action.payload.data.name;
+                        state.token = action.payload.data.token;
+                        state.accountType = action.payload.data.accountType;
+                        state.employeeId = action.payload.data.employeeId;
+                        state.accountStatus = action.payload.data.accountStatus;
+                    }
+                },
+            );
     },
 });
 

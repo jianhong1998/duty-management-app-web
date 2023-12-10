@@ -18,6 +18,7 @@ import { monthlyScheduleSliceReducer } from './monthlyScheduleSice/monthlySchedu
 import monthlyScheduleApi from './monthlyScheduleSice/monthlySchedule.api';
 import userMonthlyScheduleApi from './monthlyScheduleSice/userMonthlySchedule.api';
 import passwordApi from './api/password.api';
+import { authApi } from './api/auth.api';
 
 const appReducer = combineReducers({
     [SliceName.LOGIN]: loginSliceReducer,
@@ -36,6 +37,7 @@ const appReducer = combineReducers({
     [monthlyScheduleApi.reducerPath]: monthlyScheduleApi.reducer,
     [userMonthlyScheduleApi.reducerPath]: userMonthlyScheduleApi.reducer,
     [passwordApi.reducerPath]: passwordApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
 });
 
 const store = configureStore({
@@ -49,10 +51,11 @@ const store = configureStore({
             .concat(employeeTimeSlotApi.middleware)
             .concat(monthlyScheduleApi.middleware)
             .concat(userMonthlyScheduleApi.middleware)
-            .concat(passwordApi.middleware),
+            .concat(passwordApi.middleware)
+            .concat(authApi.middleware),
 });
 
-type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
 type DispatchFn = () => AppDispatch;
 const useAppDispatch: DispatchFn = useDispatch;

@@ -31,7 +31,6 @@ const EmployeePage: FC = () => {
 
     const { isError, error, isLoading } = useGetAllEmployeesQuery(
         {
-            token: token!,
             pageNumber: employeeTable.paginationModel.page + 1,
             pageSize: employeeTable.paginationModel.pageSize,
             sortBy: employeeTable.sortModel[0]?.field,

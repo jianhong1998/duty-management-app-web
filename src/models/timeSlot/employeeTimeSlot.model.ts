@@ -11,7 +11,6 @@ export interface IEmployeeDefaultWeeklyTimeSlots {
 }
 
 export interface IGetEmployeeDefaultWeeklyTimeSlotsRequestConfig {
-    token: string;
     employeeId: number;
 }
 

@@ -3,9 +3,9 @@ import { BACKEND_API } from '../../constants/backendApi';
 import { IEmployee } from '../../models/employee/employee.model';
 import StandardResponse from '../../models/httpResponses/standardResponse';
 import IPagination from '../../models/pagination/pagination.model';
+import { RootState } from '../index.store';
 
 interface IEmployeeGetAllRequestConfig {
-    token: string;
     pageNumber: number;
     pageSize: number;
     sortBy?: string;
@@ -13,7 +13,6 @@ interface IEmployeeGetAllRequestConfig {
 }
 
 interface IEmployeeDeactivateRequestConfig {
-    token: string;
     employeeId: number;
 }
 
@@ -24,6 +23,11 @@ export const employeeApi = createApi({
     reducerPath: 'employeeApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${BACKEND_API}/api/admin/employee`,
+        prepareHeaders: (headers, { getState }) => {
+            const { token } = (getState() as RootState).loginSlice;
+
+            headers.set('Authorization', `Bearer ${token}`);
+        },
     }),
     endpoints: (builder) => ({
         getAllEmployees: builder.query<
@@ -33,7 +37,7 @@ export const employeeApi = createApi({
             }>,
             IEmployeeGetAllRequestConfig
         >({
-            query: ({ token, pageNumber, pageSize, sortBy, sortOrder }) => {
+            query: ({ pageNumber, pageSize, sortBy, sortOrder }) => {
                 let url = `/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
                 if (sortBy && sortOrder) {
@@ -43,9 +47,6 @@ export const employeeApi = createApi({
                 return {
                     url,
                     method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
                 };
             },
         }),
@@ -53,24 +54,18 @@ export const employeeApi = createApi({
             StandardResponse<IEmployee[]>,
             IEmployeeDeactivateRequestConfig
         >({
-            query: ({ employeeId, token }) => ({
+            query: ({ employeeId }) => ({
                 url: `/${employeeId}`,
                 method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             }),
         }),
         reactivateEmployee: builder.mutation<
             StandardResponse<IEmployee>,
             IEmployeeReactivateRequestConfig
         >({
-            query: ({ token, employeeId }) => ({
+            query: ({ employeeId }) => ({
                 url: `/reactivate/${employeeId}`,
                 method: 'PATCH',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             }),
         }),
     }),

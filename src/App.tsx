@@ -17,8 +17,10 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from './store/index.store';
 import { loadingSliceActions } from './store/loadingSlice/loading.slice';
 import { loginSliceActions } from './store/loginSlice/login.slice';
-import { verifyToken } from './store/loginSlice/login.thunk';
 import UserAccountStatus from './models/userAccount/userAccountStatus.enum';
+import { useLazyVerifyTokenQuery } from './store/api/auth.api';
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
+import ErrorHandler from './utils/errorHandler';
 
 function App() {
     const { token, accountStatus } = useAppSelector(
@@ -32,6 +34,15 @@ function App() {
 
     const { setTokenAndUsername } = loginSliceActions;
     const { openLoading, closeLoading } = loadingSliceActions;
+
+    const [
+        verifyToken,
+        {
+            status: verifyTokenStatus,
+            data: verifyTokenData,
+            error: verifyTokenError,
+        },
+    ] = useLazyVerifyTokenQuery();
 
     useEffect(() => {
         if (
@@ -64,51 +75,71 @@ function App() {
             );
         }
 
-        dispatch(openLoading());
+        const tokenInStorage = localStorage.getItem('token');
 
-        dispatch(verifyToken())
-            .unwrap()
-            .then((isValid) => {
-                if (!isValid) {
-                    navigate('/login');
-                    return;
-                }
+        verifyToken(
+            {
+                token: tokenInStorage || '',
+            },
+            false,
+        );
+    }, [token, dispatch, setTokenAndUsername, verifyToken]);
 
-                if (accountStatus === UserAccountStatus.RESETING_PASSWORD) {
-                    navigate('/reset-password');
-                    return;
-                }
+    // Manage Loading
+    useEffect(() => {
+        if (verifyTokenStatus === QueryStatus.pending) {
+            dispatch(openLoading());
+            return;
+        }
 
-                if (
-                    location.pathname === '/login' ||
-                    location.pathname === '/forgetPassword'
-                ) {
-                    navigate('/');
-                    return;
-                }
+        dispatch(closeLoading());
+    }, [verifyTokenStatus, dispatch, openLoading, closeLoading]);
 
-                if (
-                    accountStatus === UserAccountStatus.ACTIVE &&
-                    location.pathname === '/reset-password'
-                ) {
-                    navigate('/');
-                    return;
-                }
-            })
-            .catch((error) => {
-                alert(error.message);
-            })
-            .finally(() => {
-                dispatch(closeLoading());
-            });
+    // Manage data and error
+    useEffect(() => {
+        if (
+            verifyTokenStatus === QueryStatus.fulfilled &&
+            typeof verifyTokenData === 'boolean'
+        ) {
+            if (!verifyTokenData) {
+                navigate('/login');
+                return;
+            }
+
+            if (accountStatus === UserAccountStatus.RESETING_PASSWORD) {
+                navigate('/reset-password');
+                return;
+            }
+
+            if (
+                location.pathname === '/login' ||
+                location.pathname === '/forgetPassword'
+            ) {
+                navigate('/');
+                return;
+            }
+
+            if (
+                accountStatus === UserAccountStatus.ACTIVE &&
+                location.pathname === '/reset-password'
+            ) {
+                navigate('/');
+                return;
+            }
+
+            return;
+        }
+
+        if (verifyTokenStatus === QueryStatus.rejected && verifyTokenError) {
+            ErrorHandler.activeToast(verifyTokenError);
+            return;
+        }
     }, [
-        token,
+        verifyTokenData,
+        verifyTokenError,
+        verifyTokenStatus,
         accountStatus,
         location.pathname,
-        dispatch,
-        setTokenAndUsername,
-        openLoading,
-        closeLoading,
         navigate,
     ]);
 

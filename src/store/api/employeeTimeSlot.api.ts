@@ -6,22 +6,29 @@ import {
     IPutEmployeeDefaultWeeklyTimeSlotsRequestConfig,
 } from '../../models/timeSlot/employeeTimeSlot.model';
 import StandardResponse from '../../models/httpResponses/standardResponse';
+import { RootState } from '../index.store';
 
 export const employeeTimeSlotApi = createApi({
     reducerPath: 'employeeTimeSlotApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${BACKEND_API}/api/employee-time-slot`,
+        prepareHeaders: (headers, { getState }) => {
+            const { token } = (getState() as RootState).loginSlice;
+
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+
+            return headers;
+        },
     }),
     endpoints: (builder) => ({
         getEmployeeDefaultWeeklyTimeSlots: builder.query<
             StandardResponse<IEmployeeDefaultWeeklyTimeSlots>,
             IGetEmployeeDefaultWeeklyTimeSlotsRequestConfig
         >({
-            query: ({ token, employeeId }) => ({
+            query: ({ employeeId }) => ({
                 url: `/${employeeId}`,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
                 method: 'GET',
             }),
         }),
@@ -29,11 +36,8 @@ export const employeeTimeSlotApi = createApi({
             StandardResponse<IEmployeeDefaultWeeklyTimeSlots>,
             IPutEmployeeDefaultWeeklyTimeSlotsRequestConfig
         >({
-            query: ({ token, employeeId, weeklyTimeSlotIds }) => ({
+            query: ({ employeeId, weeklyTimeSlotIds }) => ({
                 url: `/${employeeId}`,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
                 body: weeklyTimeSlotIds,
                 method: 'PUT',
             }),

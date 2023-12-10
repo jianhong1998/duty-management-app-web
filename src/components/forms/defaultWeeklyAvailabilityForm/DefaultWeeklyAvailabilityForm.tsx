@@ -106,7 +106,6 @@ const DefaultWeeklyAvailabilityForm: FC = () => {
         const { mon, tue, wed, thu, fri, sat, sun } = chosenTimeSlots;
 
         updateEmployeeDefaultWeeklyTimeSlotsFn({
-            token,
             employeeId,
             weeklyTimeSlotIds: {
                 mon,

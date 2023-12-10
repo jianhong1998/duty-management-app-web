@@ -12,7 +12,6 @@ import {
     useState,
 } from 'react';
 import PasswordInput from '../../common/input/PasswordInput';
-import { loginFn, verifyToken } from '../../../store/loginSlice/login.thunk';
 import { useAppDispatch, useAppSelector } from '../../../store/index.store';
 import { loadingSliceActions } from '../../../store/loadingSlice/loading.slice';
 import EmailChecker from '../../../utils/emailChecker';
@@ -20,6 +19,11 @@ import { useNavigate } from 'react-router-dom';
 import ErrorHandler from '../../../utils/errorHandler';
 import ToastifyController from '../../../utils/toastifyController';
 import SecondaryButton from '../../common/buttons/SecondaryButton';
+import {
+    useLazyVerifyTokenQuery,
+    useLoginMutation,
+} from '../../../store/api/auth.api';
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 
 const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -35,6 +39,21 @@ const LoginForm: FC = () => {
 
     const { openLoading: startLoading, closeLoading: endLoading } =
         loadingSliceActions;
+
+    const [
+        loginFn,
+        {
+            status: loginFnStatus,
+            data: loginFnData,
+            error: loginFnError,
+            reset: resetLoginFn,
+        },
+    ] = useLoginMutation();
+
+    const [
+        verifyToken,
+        { status: verifyTokenStatus, error: verifyTokenError },
+    ] = useLazyVerifyTokenQuery();
 
     const passwordOnChangeHandler: ChangeEventHandler<HTMLInputElement> = (
         event,
@@ -56,24 +75,7 @@ const LoginForm: FC = () => {
             return;
         }
 
-        dispatch(startLoading());
-
-        dispatch(loginFn(requestBody))
-            .unwrap()
-            .then((loginResponse) => {
-                if (!loginResponse.isSuccess) {
-                    throw new Error(loginResponse.errorMessage);
-                }
-
-                ToastifyController.activeSuccess('Login Successfully.');
-                homePageRedirectHandler();
-            })
-            .catch((error) => {
-                ErrorHandler.activeToast(error);
-            })
-            .finally(() => {
-                dispatch(endLoading());
-            });
+        loginFn(requestBody);
     };
 
     const emailInputEnterOnPressHandler: KeyboardEventHandler<
@@ -104,17 +106,60 @@ const LoginForm: FC = () => {
             return;
         }
 
-        dispatch(startLoading());
+        const tokenInStorage = localStorage.getItem('token');
 
-        dispatch(verifyToken())
-            .unwrap()
-            .catch((error) => {
-                ErrorHandler.activeToast(error);
-            })
-            .finally(() => {
-                dispatch(endLoading());
-            });
-    }, [token, dispatch, startLoading, endLoading, homePageRedirectHandler]);
+        verifyToken({
+            token: tokenInStorage || '',
+        });
+    }, [token, dispatch, homePageRedirectHandler, verifyToken]);
+
+    // Control Loading
+    useEffect(() => {
+        if (
+            loginFnStatus === QueryStatus.pending ||
+            verifyTokenStatus === QueryStatus.pending
+        ) {
+            dispatch(startLoading());
+            return;
+        }
+
+        dispatch(endLoading());
+    }, [loginFnStatus, verifyTokenStatus, dispatch, startLoading, endLoading]);
+
+    useEffect(() => {
+        try {
+            if (loginFnStatus === QueryStatus.fulfilled && loginFnData) {
+                if (!loginFnData.isSuccess) {
+                    throw new Error(loginFnData.errorMessage);
+                }
+
+                ToastifyController.activeSuccess('Login Successfully.');
+                resetLoginFn();
+                homePageRedirectHandler();
+                return;
+            }
+
+            if (loginFnStatus === QueryStatus.rejected && loginFnError) {
+                throw loginFnError;
+            }
+        } catch (error) {
+            ErrorHandler.activeToast(error);
+            resetLoginFn();
+        }
+    }, [
+        loginFnStatus,
+        loginFnData,
+        loginFnError,
+        homePageRedirectHandler,
+        resetLoginFn,
+    ]);
+
+    useEffect(() => {
+        if (verifyTokenStatus === QueryStatus.rejected && verifyTokenError) {
+            ErrorHandler.activeToast(verifyTokenError);
+            return;
+        }
+    }, [verifyTokenStatus, verifyTokenError]);
 
     return (
         <>

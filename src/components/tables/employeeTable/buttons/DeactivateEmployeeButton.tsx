@@ -2,7 +2,6 @@ import { FC, MouseEventHandler, useEffect } from 'react';
 import DangerButton from '../../../common/buttons/DangerButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDeactivateEmployeeMutation } from '../../../../store/employeeSlice/employee.api';
-import { useAppSelector } from '../../../../store/index.store';
 import { QueryStatus } from '@reduxjs/toolkit/dist/query/react';
 import ToastifyController from '../../../../utils/toastifyController';
 import ErrorHandler from '../../../../utils/errorHandler';
@@ -16,8 +15,6 @@ const DeactivateEmployeeButton: FC<DeactivateButtonProps> = ({
     employeeId,
     employeeName,
 }) => {
-    const { token } = useAppSelector((state) => state.loginSlice);
-
     const [
         deactivateEmployee,
         {
@@ -29,7 +26,7 @@ const DeactivateEmployeeButton: FC<DeactivateButtonProps> = ({
     ] = useDeactivateEmployeeMutation();
 
     const onClickHandler: MouseEventHandler<HTMLButtonElement> = () => {
-        deactivateEmployee({ token: token || '', employeeId });
+        deactivateEmployee({ employeeId });
     };
 
     useEffect(() => {

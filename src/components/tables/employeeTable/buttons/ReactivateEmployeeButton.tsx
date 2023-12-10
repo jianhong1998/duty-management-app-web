@@ -5,7 +5,6 @@ import { useReactivateEmployeeMutation } from '../../../../store/employeeSlice/e
 import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import ErrorHandler from '../../../../utils/errorHandler';
 import ToastifyController from '../../../../utils/toastifyController';
-import { useAppSelector } from '../../../../store/index.store';
 
 interface ReactivateEmployeeButtonProps {
     employeeId: number;
@@ -16,8 +15,6 @@ const ReactivateEmployeeButton: FC<ReactivateEmployeeButtonProps> = ({
     employeeId,
     employeeName,
 }) => {
-    const { token } = useAppSelector((state) => state.loginSlice);
-
     const [
         reactivateEmployee,
         {
@@ -30,7 +27,6 @@ const ReactivateEmployeeButton: FC<ReactivateEmployeeButtonProps> = ({
 
     const onClickHandler: MouseEventHandler<HTMLButtonElement> = () => {
         reactivateEmployee({
-            token: token || '',
             employeeId: employeeId,
         });
     };

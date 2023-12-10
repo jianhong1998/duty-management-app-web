@@ -35,7 +35,6 @@ const EditProfile: FC = () => {
         error: getEmployeeDefaultWeeklyTimeSlotError,
     } = useGetEmployeeDefaultWeeklyTimeSlotsQuery(
         {
-            token: token!,
             employeeId: employeeId!,
         },
         {

@@ -46,7 +46,6 @@ const EmployeeAvailabilityInfoPopup: FC<EmployeeAvailabilityInfoPopupProps> = ({
         error: getEmployeeDefaultWeeklytimeSlotsError,
     } = useGetEmployeeDefaultWeeklyTimeSlotsQuery(
         {
-            token: token!,
             employeeId,
         },
         {
